@@ -58,3 +58,9 @@ mat-card-content {
 ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: #eef6fd !important;
 }
+
+:host{
+  display: flex;
+  justify-content: space-evenly;
+  margin: 50px 50px 0px;
+}
