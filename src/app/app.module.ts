@@ -20,7 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { RenduDirective } from './shared/rendu.directive';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
@@ -32,6 +32,7 @@ import { authGuard } from './shared/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
+import { DefaultLayoutComponent } from './default-layout/default-layout.component';
 
 export function playerFactory() {
   return player;
@@ -39,29 +40,33 @@ export function playerFactory() {
 
 const routes: Routes = [
   {
-    path: '',
-    component: AssignmentsComponent
-  },
-  {
-    path: 'home',
-    component: AssignmentsComponent
-  },
-  {
-    path: 'add',
-    component: AddAssignmentComponent
-  },
-  {
-    path: 'assignments/:id',
-    component: AssignmentDetailComponent
-  },
-  {
-    path: 'assignments/:id/edit',
-    component: EditAssignmentComponent,
-    canActivate: [authGuard]
-  },
-  {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+    children:[ {
+      path: '',
+      component: AssignmentsComponent
+    },
+    {
+      path: 'home',
+      component: AssignmentsComponent
+    },
+    {
+      path: 'add',
+      component: AddAssignmentComponent
+    },
+    {
+      path: 'assignments/:id',
+      component: AssignmentDetailComponent
+    },
+    {
+      path: 'assignments/:id/edit',
+      component: EditAssignmentComponent,
+      canActivate: [authGuard]
+    }]
   }
 ]
 @NgModule({
@@ -72,7 +77,8 @@ const routes: Routes = [
     AssignmentDetailComponent,
     AddAssignmentComponent,
     EditAssignmentComponent,
-    LoginComponent
+    LoginComponent,
+    DefaultLayoutComponent
   ],
   imports: [
     BrowserModule,
