@@ -2,21 +2,40 @@ import { Component } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Router } from '@angular/router';
+import {FormBuilder, Validators} from '@angular/forms';
 
+export class Matiere{
+  id :Number;
+  nom : String;
+  constructor(id: Number, nom: String){
+    this.id = id;
+    this.nom = nom;
+  }
+}
 @Component({
   selector: 'app-add-assignment',
   templateUrl: './add-assignment.component.html',
   styleUrls: ['./add-assignment.component.css']
 })
+
 export class AddAssignmentComponent {
 
   // champs du formulaire
   nomDevoir = "";
   dateDeRendu!: Date;
-
-
-  constructor(private assignmentsService: AssignmentsService,
-              private router:Router) { }
+  matiere :Matiere[] = [new Matiere(1,"Big Data"),new Matiere(2,"Swift"),new Matiere(3,"Hadoop")];
+  // Add Stepper
+firstFormGroup = this._formBuilder.group({
+  firstCtrl: ['', Validators.required],
+});
+secondFormGroup = this._formBuilder.group({
+  secondCtrl: ['', Validators.required],
+});
+thirdFormGroup = this._formBuilder.group({
+  thirdCtrl: ['', Validators.required],
+});
+constructor(private _formBuilder: FormBuilder, private assignmentsService: AssignmentsService,
+  private router:Router) {}
 
   onSubmit(event: any) {
     // On vérifie que les champs ne sont pas vides
