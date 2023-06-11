@@ -9,8 +9,8 @@
   <button class="logout-button">Logout</button>
 </nav>
 
-
-<h1>
+<!-- old -->
+<!-- <h1>
   <nav>
       <a routerLink="/home">{{title}}</a>
   </nav>
@@ -29,10 +29,12 @@
       </a>
   </nav>
   <p *ngIf="isLogged()">Vous êtes connecté en tant que {{nom}}</p>
-</div>
+</div> -->
 
 <!-- Indique que le composant affiché sera celui
    correspondant à l'URL courant
 -->
+<div class="main">
+  <router-outlet></router-outlet>
+</div>
 
-<router-outlet></router-outlet>
