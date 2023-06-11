@@ -1,8 +1,10 @@
+@import './../../styles.css';
+
 ::ng-deep .mat-mdc-card {
   width: 400px;
-  background-color: #eef6fd !important;
+  background-color: var(--blue) !important;
   justify-content: center;
-  border: 1px solid #5f9cf3;
+  border: 1px solid var(--dark-blue);
 }
 
 ::ng-deep .mat-mdc-card-title {
@@ -11,12 +13,9 @@
 
 ::ng-deep .mat-icon {
   font-size: 100px !important;
-  color: #50bfa5;
+  color: var(--green);
   height: 100px !important;
   width: 100px !important;
-}
-::ng-deep .mat-mdc-raised-button:not(:disabled) {
-  background-color: #0043be !important;
 }
 .button{
   justify-content: center !important;
@@ -52,15 +51,15 @@ mat-card-content {
 }
 
 ::ng-deep .mat-mdc-raised-button.mat-primary {
-  background-color: #f48c7f !important;
+  background-color: var(--pink) !important;
 }
 
 ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: #eef6fd !important;
+  background-color: var(--blue) !important;
 }
 
 :host{
-  display: flex;
-  justify-content: space-evenly;
-  margin: 50px 50px 0px;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 50px 50px 0px;
 }

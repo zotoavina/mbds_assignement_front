@@ -1,5 +1,36 @@
+@import './../../../styles.css';
+
 .form {
     display: flex;
     flex-direction: column;
     margin:5px;
+}
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+::ng-deep .mat-mdc-card {
+  width: 800px;
+  margin: 30px 20%;
+  height: 400px;
+  justify-content: center;
+}
+
+.form-container {
+  display: flex;
+  align-items: center;
+}
+
+.image-container {
+  margin-left: 20px;
+}
+
+button{
+  background-color: var(--pink) !important;
+  margin: 10px;
+  color: white !important;
 }
