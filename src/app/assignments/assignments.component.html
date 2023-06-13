@@ -1,44 +1,46 @@
 <!-- Drag and drop -->
+<main class="container">
+  <div class="example-container">
+    <h2>To do</h2>
 
-<div class="example-container">
-  <h2>To do</h2>
-
-  <div
-    cdkDropList
-    #todoList="cdkDropList"
-    [cdkDropListData]="todo"
-    [cdkDropListConnectedTo]="[doneList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item.nom}}
-      <mat-card *cdkDragPreview class="product-card">
-        <div class="product-card-image">
-          <img mat-card-lg-image [src]="'../../assets/' + item.prof + '.jpg'" [alt]="item.matiere">
-        </div>
-        <div class="product-card-details">
-          <mat-card-header class="product-card-header">{{item.nom}}</mat-card-header>
-          <mat-card-content>
-            <mat-card-subtitle>à rendre le: {{item.dateRendu}}</mat-card-subtitle>
-          </mat-card-content>
-          <mat-card-footer class="product-card-footer">Matière: {{item.matiere}}</mat-card-footer>
-        </div>
-      </mat-card>
+    <div
+      cdkDropList
+      #todoList="cdkDropList"
+      [cdkDropListData]="todo"
+      [cdkDropListConnectedTo]="[doneList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item.nom}}
+          <mat-card *cdkDragPreview class="product-card">
+            <div class="product-card-image">
+              <img mat-card-lg-image [src]="'../../assets/' + item.prof + '.jpg'" [alt]="item.matiere">
+            </div>
+            <div class="product-card-details">
+              <mat-card-header class="product-card-header">{{item.nom}}</mat-card-header>
+              <mat-card-content>
+                <mat-card-subtitle>à rendre le: {{item.dateRendu}}</mat-card-subtitle>
+              </mat-card-content>
+              <mat-card-footer class="product-card-footer">Matière: {{item.matiere}}</mat-card-footer>
+            </div>
+          </mat-card>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="example-container">
-  <h2>Done</h2>
+  <div class="example-container">
+    <h2>Done</h2>
 
-  <div
-    cdkDropList
-    #doneList="cdkDropList"
-    [cdkDropListData]="done"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of done" cdkDrag>{{item.nom}}</div>
+    <div
+      cdkDropList
+      #doneList="cdkDropList"
+      [cdkDropListData]="done"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of done" cdkDrag>{{item.nom}}</div>
+    </div>
   </div>
-</div>
+</main>
+
 
 
 
