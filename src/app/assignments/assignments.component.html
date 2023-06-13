@@ -1,123 +1,153 @@
-<h2>{{titre}}</h2>
+<!-- Drag and drop -->
+
+<div class="example-container">
+  <h2>To do</h2>
+
+  <div
+    cdkDropList
+    #todoList="cdkDropList"
+    [cdkDropListData]="todo"
+    [cdkDropListConnectedTo]="[doneList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item.nom}}
+      <mat-card *cdkDragPreview class="product-card">
+        <div class="product-card-image">
+          <img mat-card-lg-image [src]="'../../assets/' + item.prof + '.jpg'" [alt]="item.matiere">
+        </div>
+        <div class="product-card-details">
+          <mat-card-header class="product-card-header">{{item.nom}}</mat-card-header>
+          <mat-card-content>
+            <mat-card-subtitle>à rendre le: {{item.dateRendu}}</mat-card-subtitle>
+          </mat-card-content>
+          <mat-card-footer class="product-card-footer">Matière: {{item.matiere}}</mat-card-footer>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<div class="example-container">
+  <h2>Done</h2>
+
+  <div
+    cdkDropList
+    #doneList="cdkDropList"
+    [cdkDropListData]="done"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of done" cdkDrag>{{item.nom}}</div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- OLD -->
+<!-- <h2>{{titre}}</h2>
 
 <main class="container">
-    <nav class="ajouterBtn">
-        <a routerLink="/add">
-            <button mat-flat-button color="accent"> Ajouter Assignment
-            </button>
-        </a>
-    </nav>
-
-
- 
-    <mat-divider></mat-divider>
-    <p>
-        Nb assignments total {{totalDocs}}, par page {{limit}}, nbPages {{totalPages}}
-    </p>
-    <p>
-        Régler nb par page : 
-           <input type="range" 
-                  min=1 max=100 value=10 
-                  [(ngModel)]="limit"
-                  (change)="getAssignments()"
-           /> {{limit}}
-    </p>
-<p>
+  <nav class="ajouterBtn">
+    <a routerLink="/add">
+      <button mat-flat-button color="accent"> Ajouter Assignment
+      </button>
+    </a>
+  </nav> -->
+  <!-- <mat-divider></mat-divider>
+  <p>
+    Nb assignments total {{totalDocs}}, par page {{limit}}, nbPages {{totalPages}}
+  </p>
+  <p>
+    Régler nb par page :
+    <input type="range" min=1 max=100 value=10 [(ngModel)]="limit" (change)="getAssignments()" /> {{limit}}
+  </p>
+  <p>
     <button (click)="premierePage()" [disabled]="!hasPrevPage">
-        Première page
+      Première page
     </button>
     <button (click)="pagePrecedente()" [disabled]="!hasPrevPage">
-        Page Précédente
+      Page Précédente
     </button>
     <button (click)="pageSuivante()" [disabled]="!hasNextPage">Page Suivante</button>
     <button (click)="dernierePage()" [disabled]="!hasNextPage">
-        Derniere page
+      Derniere page
     </button>
-</p>
-<h1>Affichage avec data table</h1>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Selection de la page des assigments"
-                 (page)="handlePage($event)"
-                 class="demo-paginator"
-                 [length]="totalPages"
-                 [pageSize]="limit"
-                 [pageIndex]="page"
-  >
+  </p> -->
+  <!-- <h1>Affichage avec data table</h1>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selection de la page des assigments"
+    (page)="handlePage($event)" class="demo-paginator" [length]="totalPages" [pageSize]="limit" [pageIndex]="page">
   </mat-paginator>
-<table mat-table [dataSource]="assignments" class="mat-elevation-z8 demo-table">
+  <table mat-table [dataSource]="assignments" class="mat-elevation-z8 demo-table"> -->
     <!-- id Column -->
-    <ng-container matColumnDef="id">
+    <!-- <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Id </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-  
+    </ng-container> -->
+
     <!-- nom Column -->
-    <ng-container matColumnDef="nom">
+    <!-- <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef> Nom </th>
       <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
-    </ng-container>
-  
+    </ng-container> -->
+
     <!-- dateDeRendu Column -->
-    <ng-container matColumnDef="dateDeRendu">
+    <!-- <ng-container matColumnDef="dateDeRendu">
       <th mat-header-cell *matHeaderCellDef> Date de rendu </th>
       <td mat-cell *matCellDef="let element"> {{element.dateDeRendu}} </td>
-    </ng-container>
-  
+    </ng-container> -->
+
     <!-- rendu Column -->
-    <ng-container matColumnDef="rendu">
+    <!-- <ng-container matColumnDef="rendu">
       <th mat-header-cell *matHeaderCellDef> Rendu </th>
       <td mat-cell *matCellDef="let element"> {{element.rendu}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    </ng-container> -->
+
+    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Selection de la page des assigments"
-                 (page)="handlePage($event)"
-                 class="demo-paginator"
-                 [length]="totalPages"
-                 [pageSize]="limit"
-                 [pageIndex]="page"
-  >
-  </mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selection de la page des assigments"
+    (page)="handlePage($event)" class="demo-paginator" [length]="totalPages" [pageSize]="limit" [pageIndex]="page">
+  </mat-paginator> -->
 
-  
-<h1>Affichage avec mat-list / mat-list-item</h1>
-    <mat-list *ngFor="let a of assignments">
-        <a routerLink="/assignments/{{a.id}}">
-            <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
-            <mat-list-item>
-                <p appRendu *ngIf="a.rendu; else nonsoumis">
-                    {{a.nom}} id = {{a._id}}
-                </p>
-                <ng-template #nonsoumis>
-                    {{a.nom}} NON RENDU id = {{a._id}}
-                </ng-template>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </a>
-    </mat-list>
-    
 
-    <h1>Exemple de scrolling virtuel infini</h1>
-    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
+  <!-- <h1>Affichage avec mat-list / mat-list-item</h1>
+  <mat-list *ngFor="let a of assignments">
+    <a routerLink="/assignments/{{a.id}}">
+      <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
+      <mat-list-item>
+        <p appRendu *ngIf="a.rendu; else nonsoumis">
+          {{a.nom}} id = {{a._id}}
+        </p>
+        <ng-template #nonsoumis>
+          {{a.nom}} NON RENDU id = {{a._id}}
+        </ng-template>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </a>
+  </mat-list>
+
+
+  <h1>Exemple de scrolling virtuel infini</h1>
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
     <mat-list *cdkVirtualFor="let a of assignments">
-        <a routerLink="/assignments/{{a.id}}">
-            <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
-            <mat-list-item>
-                <p appRendu *ngIf="a.rendu; else nonsoumis">
-                    {{a.nom}} id = {{a._id}}
-                </p>
-                <ng-template #nonsoumis>
-                    {{a.nom}} NON RENDU id = {{a._id}}
-                </ng-template>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </a>
+      <a routerLink="/assignments/{{a.id}}">
+        <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
+        <mat-list-item>
+          <p appRendu *ngIf="a.rendu; else nonsoumis">
+            {{a.nom}} id = {{a._id}}
+          </p>
+          <ng-template #nonsoumis>
+            {{a.nom}} NON RENDU id = {{a._id}}
+          </ng-template>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </a>
     </mat-list>
-</cdk-virtual-scroll-viewport>
+  </cdk-virtual-scroll-viewport>
 
-</main>
+</main> -->

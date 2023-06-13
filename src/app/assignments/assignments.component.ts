@@ -2,7 +2,8 @@ import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
+import { filter, map, pairwise, tap } from 'rxjs';
+import { CdkDragDrop,moveItemInArray,transferArrayItem,CdkDrag,CdkDropList} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-assignments',
@@ -30,9 +31,9 @@ export class AssignmentsComponent implements OnInit {
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
 
   constructor(private assignmentsService:AssignmentsService,
-              private ngZone: NgZone) {    
+              private ngZone: NgZone) {
   }
-  
+
   ngOnInit(): void {
     console.log("OnInit Composant instancié et juste avant le rendu HTML (le composant est visible dans la page HTML)");
     // exercice : regarder si il existe des query params
@@ -43,7 +44,7 @@ export class AssignmentsComponent implements OnInit {
     this.getAssignments();
   }
 
-  ngAfterViewInit() { 
+  ngAfterViewInit() {
     console.log("after view init");
 
     if(!this.scroller) return;
@@ -143,9 +144,35 @@ export class AssignmentsComponent implements OnInit {
   // Pour mat-paginator
   handlePage(event: any) {
     console.log(event);
-   
+
     this.page = event.pageIndex;
     this.limit = event.pageSize;
     this.getAssignments();
+  }
+
+
+  // Drag and drop
+  todo :{nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]=
+  [
+    {nom: "Devoir Big Data", matiere:"Big Data",prof:"1",dateRendu:"2023-06-21", rendu:false},
+    {nom: "Gestion de devoir", matiere:"Angular",prof:"2",dateRendu:"2023-06-21", rendu:false},
+    {nom: "Dockerisation", matiere:"Docker",prof:"3",dateRendu:"2023-06-21", rendu:false},
+    {nom: "Gestion Courrier", matiere:".Net",prof:"1",dateRendu:"2023-06-21", rendu:false},
+    {nom: "Cloud computing", matiere:"Cloud",prof:"3",dateRendu:"2023-06-21", rendu:false},
+  ];
+
+  done : {nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]= [];
+
+  drop(event: CdkDragDrop<{nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 }
