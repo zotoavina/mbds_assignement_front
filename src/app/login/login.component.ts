@@ -5,6 +5,7 @@ import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router';
 import { Reponse } from '../shared/reponse.model';
 import { ROLE_STORAGE, TOKEN_STORAGE } from '../shared/constants';
+import { EncryptionService } from '../shared/encryption.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class LoginComponent{
   constructor(
     private formBuilder: FormBuilder, 
     private authService: AuthService,
+    private encryptionService: EncryptionService,
     private router: Router
   ){
     this.loginForm = this.formBuilder.group({
@@ -45,7 +47,8 @@ export class LoginComponent{
         console.log(response);
         if(response.code == 202){
           localStorage.setItem(TOKEN_STORAGE, response.data.token);
-          localStorage.setItem(ROLE_STORAGE, response.data.role);
+          let role = this.encryptionService.encrypt(response.data.role);
+          localStorage.setItem(ROLE_STORAGE,role);
           this.router.navigate(['/home']); 
         }else{
             this.message = response.message;

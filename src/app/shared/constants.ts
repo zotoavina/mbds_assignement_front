@@ -3,6 +3,7 @@ export const ROLE_STORAGE = "role";
 export const ROLE = {
   ADMIN: "Admin",
   USER: "User"
-}
+};
+export const SECRET_KEY_STORAGE = "secret";
 export const LOGIN = "user/login";
 

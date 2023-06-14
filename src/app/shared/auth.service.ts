@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {LOGIN, ROLE, ROLE_STORAGE, TOKEN_STORAGE} from '../shared/constants';
 import { Reponse } from './reponse.model';
+import { EncryptionService } from './encryption.service';
 @Injectable()
 export class DataService {
   apiUrl = environment.apiUrl;
@@ -19,7 +20,7 @@ export class AuthService {
   loggedIn = false;
   base_url = environment.apiUrl;
 
-  constructor(private http: HttpClient){ }
+  constructor(private http: HttpClient, private encryptionService: EncryptionService){ }
 
   // théoriquement, on devrait passer en paramètre le login
   // et le password, cette méthode devrait faire une requête
@@ -49,8 +50,12 @@ export class AuthService {
     // Pour le moment, version simplifiée...
     // on suppose qu'on est admin si on est loggué
     const isUserAdminPromise = new Promise((resolve, reject) => {
-        const role = localStorage.getItem(ROLE_STORAGE);
-        resolve(role == ROLE.ADMIN);
+        const role  = localStorage.getItem(ROLE_STORAGE);
+        if (role) {
+          const decryptedData = this.encryptionService.decrypt(role);
+          resolve(decryptedData == ROLE.ADMIN);
+        }
+        return false;
     });
 
     // on renvoie la promesse qui dit si on est admin ou pas
