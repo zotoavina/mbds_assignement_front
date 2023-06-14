@@ -4,6 +4,7 @@ import { AnimationOptions } from 'ngx-lottie/lib/symbols';
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router';
 import { Reponse } from '../shared/reponse.model';
+import { TOKEN_STORAGE } from '../shared/constants';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { Reponse } from '../shared/reponse.model';
 })
 export class LoginComponent{
   loginForm: FormGroup;
+  message?: String;
 
   options: AnimationOptions = {
     path: '/assets/login_lottie_animation.json',
@@ -42,10 +44,11 @@ export class LoginComponent{
       (response: Reponse) => {
         console.log(response);
         if(response.code == 202){
+          localStorage.setItem(TOKEN_STORAGE, response.data.token);
           this.router.navigate(['/home']); 
+        }else{
+            this.message = response.message;
         }
-      },(error) => {
-        console.log(error);
       }
     );
   }

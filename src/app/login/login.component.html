@@ -15,9 +15,9 @@
           <input type="password" matInput placeholder="Mot de passe" formControlName="mdp" required="true">
         </mat-form-field>
       </p>
-      <!-- <p *ngIf="error" class="error">
-        {{ error }}
-      </p> -->
+      <p *ngIf="message" class="error">
+        {{ message }}
+      </p>
       <div class="button">
         <button type="submit" mat-raised-button color="primary">Login</button>
       </div>
