@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {LOGIN} from '../shared/constants';
+import { Reponse } from './reponse.model';
 @Injectable()
 export class DataService {
   apiUrl = environment.apiUrl;
@@ -31,10 +32,10 @@ export class AuthService {
   //   this.loggedIn = true;
   // }
 
-  logIn(email: string, motDePasse: string): Observable<any> {
+  logIn(email: string, motDePasse: string): Observable<Reponse> {
     const url = this.base_url + LOGIN; // Replace with your login endpoint
     const body = { email, motDePasse };
-    return this.http.post<any>(url, body);
+    return this.http.post<Reponse>(url, body);
   }
 
 

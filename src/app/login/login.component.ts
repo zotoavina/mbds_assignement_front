@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AnimationOptions } from 'ngx-lottie/lib/symbols';
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router';
+import { Reponse } from '../shared/reponse.model';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class LoginComponent{
     console.log("motDePasse:"+ motDePasse);
 
     this.authService.logIn(email, motDePasse).subscribe(
-      (response) => {
+      (response: Reponse) => {
         console.log(response);
         if(response.code == 202){
           this.router.navigate(['/home']); 
