@@ -60,4 +60,9 @@ export class DefaultLayoutComponent {
       window.location.reload();
     });
   }
+
+  logout(): void {
+    localStorage.clear(); // Remove all item from local storage
+    this.router.navigate(["/login"]);
+  }
 }
