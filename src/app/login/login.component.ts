@@ -4,7 +4,7 @@ import { AnimationOptions } from 'ngx-lottie/lib/symbols';
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router';
 import { Reponse } from '../shared/reponse.model';
-import { TOKEN_STORAGE } from '../shared/constants';
+import { ROLE_STORAGE, TOKEN_STORAGE } from '../shared/constants';
 
 
 @Component({
@@ -45,6 +45,7 @@ export class LoginComponent{
         console.log(response);
         if(response.code == 202){
           localStorage.setItem(TOKEN_STORAGE, response.data.token);
+          localStorage.setItem(ROLE_STORAGE, response.data.role);
           this.router.navigate(['/home']); 
         }else{
             this.message = response.message;
