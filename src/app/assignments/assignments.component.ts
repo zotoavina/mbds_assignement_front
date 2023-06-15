@@ -179,18 +179,8 @@ constructor(
 
 
   // Drag and drop
-  todo :{nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]=
-  [
-    {nom: "Devoir Big Data", matiere:"Big Data",prof:"1",dateRendu:"2023-06-21", rendu:false},
-    {nom: "Gestion de devoir", matiere:"Angular",prof:"2",dateRendu:"2023-06-21", rendu:false},
-    {nom: "Dockerisation", matiere:"Docker",prof:"3",dateRendu:"2023-06-21", rendu:false},
-    {nom: "Gestion Courrier", matiere:".Net",prof:"1",dateRendu:"2023-06-21", rendu:false},
-    {nom: "Cloud computing", matiere:"Cloud",prof:"3",dateRendu:"2023-06-21", rendu:false},
-  ];
 
-  done : {nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]= [];
-
-  drop(event: CdkDragDrop<{nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]>) {
+  drop(event: CdkDragDrop<Assignment[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -201,5 +191,6 @@ constructor(
         event.currentIndex,
       );
     }
+
   }
 }
