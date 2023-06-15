@@ -5,5 +5,8 @@ export const ROLE = {
   USER: "User"
 };
 export const SECRET_KEY_STORAGE = "secret";
-export const LOGIN = "user/login";
+export const LOGIN = "login";
+export const USER = "user/"
+export const ASSIGNEMENT = "assignments/"
+
 

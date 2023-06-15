@@ -1,11 +1,10 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
-import { LOGIN } from './constants';
 
 export const authGuard: CanActivateFn = (route, state) => {
 
-  // injection par programme (au lieu de le faire dans 
+  // injection par programme (au lieu de le faire dans
   // le constructeur d'un composant)
   let authService = inject(AuthService);
   let router = inject(Router);
@@ -33,5 +32,5 @@ export const authGuard: CanActivateFn = (route, state) => {
   )
 
   // si ça renvoie true, alors, on peut activer la route
-  
+
 };

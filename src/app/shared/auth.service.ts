@@ -2,23 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import {LOGIN, ROLE, ROLE_STORAGE, TOKEN_STORAGE} from '../shared/constants';
+import {LOGIN, ROLE, ROLE_STORAGE, TOKEN_STORAGE, USER} from '../shared/constants';
 import { Reponse } from './reponse.model';
 import { EncryptionService } from './encryption.service';
-@Injectable()
-export class DataService {
-  apiUrl = environment.apiUrl;
-  apiKey = environment.apiKey;
-
-  // Rest of your service code
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   loggedIn = false;
-  base_url = environment.apiUrl;
+  base_url = environment.apiUrl + USER;
 
   constructor(private http: HttpClient, private encryptionService: EncryptionService){ }
 
@@ -34,7 +27,7 @@ export class AuthService {
   // }
 
   logIn(email: string, motDePasse: string): Observable<Reponse> {
-    const url = this.base_url + LOGIN; // Replace with your login endpoint
+    const url = this.base_url + LOGIN;
     const body = { email, motDePasse };
     return this.http.post<Reponse>(url, body);
   }
