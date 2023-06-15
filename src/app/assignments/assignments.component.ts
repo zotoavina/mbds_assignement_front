@@ -1,10 +1,11 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap } from 'rxjs';
 import { CdkDragDrop,moveItemInArray,transferArrayItem,CdkDrag,CdkDropList} from '@angular/cdk/drag-drop';
 import { HttpStatusCode } from '@angular/common/http';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-assignments',
@@ -37,7 +38,9 @@ nextPage: number = 0;
 
 constructor(
   private assignmentsService:AssignmentsService,
-  private ngZone: NgZone)
+  private ngZone: NgZone,
+  private dialog: MatDialog
+)
 {}
 
   ngOnInit(): void {
@@ -191,6 +194,22 @@ constructor(
         event.currentIndex,
       );
     }
-
   }
+
+  openModal(item: Assignment) {
+    this.dialog.open(ModalComponent, {
+      data: item
+    });
+  }
+}
+@Component({
+  selector: 'app-modal',
+  template: `
+    <h2>{{ data.nom }}</h2>
+    <p>{{ data.remarques }}</p>
+    <!-- Add additional content to the modal as needed -->
+  `
+})
+export class ModalComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Assignment) {}
 }
