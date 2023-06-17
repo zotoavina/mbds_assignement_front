@@ -15,19 +15,26 @@
           </div>
         </form>
       </mat-step>
+
       <mat-step [stepControl]="secondFormGroup" label="Matière">
         <form [formGroup]="secondFormGroup">
           <div class="form-container">
             <mat-form-field>
               <mat-label>Matière</mat-label>
-              <mat-select>
-                <mat-option *ngFor="let mat of matiere" [value]="mat.id">
+              <mat-select (valueChange)="changeMatiere($event)">
+                <mat-option *ngFor="let mat of matieres" [value]="mat._id" >
                   {{mat.nom}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div class="image-container">
-              <img src="./../../../assets/1.jpg" mat-card-md-image>
+            <div class="image-container me-2" *ngIf="matiereSelected">
+              <img [src]="matiereSelected.photo" mat-card-md-image>
+            </div>
+            <div class="image-container me-2" *ngIf="matiereSelected">
+              <p>Professeur: </p>
+            </div>
+            <div class="image-container" *ngIf="matiereSelected">
+              <img [src]="matiereSelected?.photoProf" mat-card-md-image>
             </div>
           </div>
           <div class="button-container">
@@ -36,11 +43,12 @@
           </div>
         </form>
       </mat-step>
+      
       <mat-step [stepControl]="thirdFormGroup" label="Date de rendu">
         <form [formGroup]="thirdFormGroup">
           <mat-form-field appearance="fill">
             <mat-label>Date de rendu</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="date" required>
+            <input matInput [matDatepicker]="picker" formControlName="dateDeRendu" [(ngModel)]="dateDeRendu" name="date" required>
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
