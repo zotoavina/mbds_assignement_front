@@ -5,7 +5,7 @@
 
     <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="assignments" [cdkDropListConnectedTo]="[doneList]"
       class="example-list" (cdkDropListDropped)="drop($event)" >
-      <div class="example-box" *ngFor="let item of assignments" cdkDrag (cdkDragExited)="openModal(item)">
+      <div class="example-box" *ngFor="let item of assignments" cdkDrag >
         <mat-card class="product-card">
           <mat-card-header>
             <mat-card-subtitle>

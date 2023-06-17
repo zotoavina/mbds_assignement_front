@@ -5,7 +5,8 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap } from 'rxjs';
 import { CdkDragDrop,moveItemInArray,transferArrayItem,CdkDrag,CdkDropList} from '@angular/cdk/drag-drop';
 import { HttpStatusCode } from '@angular/common/http';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-assignments',
@@ -187,29 +188,64 @@ constructor(
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
-  }
+      const previousContainer = event.previousContainer;
+      const currentContainer = event.container;
+      const previousIndex = event.previousIndex;
+      const currentIndex = event.currentIndex;
+      const draggedItem = previousContainer.data[previousIndex];
 
-  openModal(item: Assignment) {
-    this.dialog.open(ModalComponent, {
-      data: item
-    });
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = draggedItem;
+      const dialogRef = this.dialog.open(ModalComponent, dialogConfig);
+
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log(result);
+        console.log(draggedItem);
+        if (result && result !== draggedItem) {
+          transferArrayItem(
+            previousContainer.data,
+            currentContainer.data,
+            previousIndex,
+            currentIndex
+          );
+        }
+      });
+    }
   }
 }
 @Component({
   selector: 'app-modal',
-  template: `
-    <h2>{{ data.nom }}</h2>
-    <p>{{ data.remarques }}</p>
-    <!-- Add additional content to the modal as needed -->
-  `
+  templateUrl: './modal.component.html',
+  styleUrls: ['./assignments.component.css']
 })
 export class ModalComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Assignment) {}
+  noteForm: FormGroup;
+  constructor(
+    public dialogRef: MatDialogRef<ModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Assignment,
+    private formBuilder: FormBuilder
+  ) {
+    this.noteForm = this.formBuilder.group({
+      note: ['', Validators.required],
+      remarks: ['']
+    });
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onConfirm(): void {
+    const newData: Assignment = JSON.parse(JSON.stringify(this.data));
+    newData.note = this.noteForm.value.note;
+    newData.remarques = this.noteForm.value.remarks;
+    newData.rendu = true;
+    newData.dateDeRendu = new Date();
+
+    this.dialogRef.close(newData);
+  }
+
 }

@@ -18,7 +18,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-import { AssignmentsComponent } from './assignments/assignments.component';
+import { AssignmentsComponent, ModalComponent } from './assignments/assignments.component';
 import { RenduDirective } from './shared/rendu.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -82,7 +82,8 @@ const routes: Routes = [
     AddAssignmentComponent,
     EditAssignmentComponent,
     LoginComponent,
-    DefaultLayoutComponent
+    DefaultLayoutComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
