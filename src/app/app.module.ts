@@ -36,6 +36,7 @@ import { DefaultLayoutComponent } from './default-layout/default-layout.componen
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import {DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export function playerFactory() {
   return player;
@@ -93,7 +94,7 @@ const routes: Routes = [
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule,MatStepperModule,MatSelectModule,
-    DragDropModule ,
+    DragDropModule , MatDialogModule,
     LottieModule.forRoot({ player: playerFactory })
   ],
   providers: [],

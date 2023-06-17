@@ -1,9 +1,11 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap } from 'rxjs';
 import { CdkDragDrop,moveItemInArray,transferArrayItem,CdkDrag,CdkDropList} from '@angular/cdk/drag-drop';
+import { HttpStatusCode } from '@angular/common/http';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-assignments',
@@ -11,28 +13,35 @@ import { CdkDragDrop,moveItemInArray,transferArrayItem,CdkDrag,CdkDropList} from
   styleUrls: ['./assignments.component.css']
 })
 export class AssignmentsComponent implements OnInit {
-  titre="Liste des devoirs à rendre";
-  // les données à afficher
-  assignments:Assignment[] = [];
-  // Pour la data table
-  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
 
-  // propriétés pour la pagination
-  page: number=1;
-  limit: number=10;
-  totalDocs: number = 0;
-  totalPages: number = 0;
-  hasPrevPage: boolean = false;
-  prevPage: number = 0;
-  hasNextPage: boolean = false;
-  nextPage: number = 0;
-;
+titre="Liste des devoirs à rendre";
+errorMessage?: string ;
+// les données à afficher
+assignments:Assignment[] = [];
 
-  @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
+assignmentsRendu: Assignment[] = [];
+// Pour la data table
+displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
 
-  constructor(private assignmentsService:AssignmentsService,
-              private ngZone: NgZone) {
-  }
+// propriétés pour la pagination
+page: number=1;
+limit: number=10;
+totalDocs: number = 0;
+totalPages: number = 0;
+hasPrevPage: boolean = false;
+prevPage: number = 0;
+hasNextPage: boolean = false;
+nextPage: number = 0;
+
+
+@ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
+
+constructor(
+  private assignmentsService:AssignmentsService,
+  private ngZone: NgZone,
+  private dialog: MatDialog
+)
+{}
 
   ngOnInit(): void {
     console.log("OnInit Composant instancié et juste avant le rendu HTML (le composant est visible dans la page HTML)");
@@ -42,6 +51,27 @@ export class AssignmentsComponent implements OnInit {
     // TODO
 
     this.getAssignments();
+  }
+
+  getAssignments() {
+    this.assignmentsService.getAssignments(this.page,this.limit).subscribe(
+      reponse =>{
+        if(reponse.code == HttpStatusCode.Accepted){
+          this.filterData(reponse.data);
+          console.log(this.assignments);
+          console.log(this.assignmentsRendu);
+        }else{
+          this.errorMessage = reponse.message;
+          console.log(this.errorMessage);
+        }
+      });
+  }
+
+  private filterData(data: Assignment[]){
+    if(data.length != 0){
+      this.assignments = data.filter( (item :Assignment) => item.rendu == false);
+      this.assignmentsRendu = data.filter( (item :Assignment) => item.rendu == true);
+    }
   }
 
   ngAfterViewInit() {
@@ -78,92 +108,82 @@ export class AssignmentsComponent implements OnInit {
         if(!this.hasNextPage) return;
 
         this.page = this.nextPage;
-        this.getAddAssignmentsForScroll();
+        // this.getAddAssignmentsForScroll();
       });
     });
   }
 
-  getAssignments() {
-    console.log("On va chercher les assignments dans le service");
+  // getAssignments() {
+  //   console.log("On va chercher les assignments dans le service");
 
-    this.assignmentsService.getAssignments(this.page, this.limit)
-    .subscribe(data => {
-      this.assignments = data.docs;
-      this.page = data.page;
-      this.limit = data.limit;
-      this.totalDocs = data.totalDocs;
-      this.totalPages = data.totalPages;
-      this.hasPrevPage = data.hasPrevPage;
-      this.prevPage = data.prevPage;
-      this.hasNextPage = data.hasNextPage;
-      this.nextPage = data.nextPage;
+  //   this.assignmentsService.getAssignments(this.page, this.limit)
+  //   .subscribe(data => {
+  //     this.assignments = data.docs;
+  //     this.page = data.page;
+  //     this.limit = data.limit;
+  //     this.totalDocs = data.totalDocs;
+  //     this.totalPages = data.totalPages;
+  //     this.hasPrevPage = data.hasPrevPage;
+  //     this.prevPage = data.prevPage;
+  //     this.hasNextPage = data.hasNextPage;
+  //     this.nextPage = data.nextPage;
 
-      console.log("Données reçues");
-    });
-  }
+  //     console.log("Données reçues");
+  //   });
+  // }
 
-  getAddAssignmentsForScroll() {
-    this.assignmentsService.getAssignments(this.page, this.limit)
-    .subscribe(data => {
-      // au lieu de remplacer le tableau, on va concaténer les nouvelles données
-      this.assignments = this.assignments.concat(data.docs);
-      // ou comme ceci this.assignments = [...this.assignments, ...data.docs]
-      //this.assignments = data.docs;
-      this.page = data.page;
-      this.limit = data.limit;
-      this.totalDocs = data.totalDocs;
-      this.totalPages = data.totalPages;
-      this.hasPrevPage = data.hasPrevPage;
-      this.prevPage = data.prevPage;
-      this.hasNextPage = data.hasNextPage;
-      this.nextPage = data.nextPage;
+  // getAddAssignmentsForScroll() {
+  //   this.assignmentsService.getAssignments(this.page, this.limit)
+  //   .subscribe(data => {
+  //     // au lieu de remplacer le tableau, on va concaténer les nouvelles données
+  //     this.assignments = this.assignments.concat(data.docs);
+  //     // ou comme ceci this.assignments = [...this.assignments, ...data.docs]
+  //     //this.assignments = data.docs;
+  //     this.page = data.page;
+  //     this.limit = data.limit;
+  //     this.totalDocs = data.totalDocs;
+  //     this.totalPages = data.totalPages;
+  //     this.hasPrevPage = data.hasPrevPage;
+  //     this.prevPage = data.prevPage;
+  //     this.hasNextPage = data.hasNextPage;
+  //     this.nextPage = data.nextPage;
 
-      console.log("Données ajoutées pour scrolling");
-    });
-  }
+  //     console.log("Données ajoutées pour scrolling");
+  //   });
+  // }
 
-  premierePage() {
-    this.page = 1;
-    this.getAssignments();
-  }
+  // premierePage() {
+  //   this.page = 1;
+  //   this.getAssignments();
+  // }
 
-  pageSuivante() {
-    this.page = this.nextPage;
-    this.getAssignments();
-  }
+  // pageSuivante() {
+  //   this.page = this.nextPage;
+  //   this.getAssignments();
+  // }
 
-  pagePrecedente() {
-    this.page = this.prevPage;
-    this.getAssignments();
-  }
-  dernierePage() {
-    this.page = this.totalPages;
-    this.getAssignments();
-  }
+  // pagePrecedente() {
+  //   this.page = this.prevPage;
+  //   this.getAssignments();
+  // }
+  // dernierePage() {
+  //   this.page = this.totalPages;
+  //   this.getAssignments();
+  // }
 
-  // Pour mat-paginator
-  handlePage(event: any) {
-    console.log(event);
+  // // Pour mat-paginator
+  // handlePage(event: any) {
+  //   console.log(event);
 
-    this.page = event.pageIndex;
-    this.limit = event.pageSize;
-    this.getAssignments();
-  }
+  //   this.page = event.pageIndex;
+  //   this.limit = event.pageSize;
+  //   this.getAssignments();
+  // }
 
 
   // Drag and drop
-  todo :{nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]=
-  [
-    {nom: "Devoir Big Data", matiere:"Big Data",prof:"1",dateRendu:"2023-06-21", rendu:false},
-    {nom: "Gestion de devoir", matiere:"Angular",prof:"2",dateRendu:"2023-06-21", rendu:false},
-    {nom: "Dockerisation", matiere:"Docker",prof:"3",dateRendu:"2023-06-21", rendu:false},
-    {nom: "Gestion Courrier", matiere:".Net",prof:"1",dateRendu:"2023-06-21", rendu:false},
-    {nom: "Cloud computing", matiere:"Cloud",prof:"3",dateRendu:"2023-06-21", rendu:false},
-  ];
 
-  done : {nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]= [];
-
-  drop(event: CdkDragDrop<{nom: string, matiere: string, prof:string,dateRendu:string,rendu:boolean}[]>) {
+  drop(event: CdkDragDrop<Assignment[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -175,4 +195,21 @@ export class AssignmentsComponent implements OnInit {
       );
     }
   }
+
+  openModal(item: Assignment) {
+    this.dialog.open(ModalComponent, {
+      data: item
+    });
+  }
+}
+@Component({
+  selector: 'app-modal',
+  template: `
+    <h2>{{ data.nom }}</h2>
+    <p>{{ data.remarques }}</p>
+    <!-- Add additional content to the modal as needed -->
+  `
+})
+export class ModalComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Assignment) {}
 }
