@@ -5,8 +5,8 @@ export class Assignment {
     dateDeRendu!: Date;
     rendu: boolean = false;
     note : number = 0;
-    eleve!:Eleve;
-    matiere!:Matiere;
+    eleve!:any;
+    matiere!:any;
     remarques?:string;
 }
 

@@ -95,7 +95,25 @@ uri_api = environment.apiUrl + ASSIGNEMENT;
   updateAssignment(assignment:Assignment):Observable<any> {
     // Normalement : on appelle un web service pour l'update des
     // données
-    return this.http.put<Assignment>(this.uri_api, assignment);
+  const uri = this.uri_api + assignment._id;
+  console.log(assignment);
+  return this.http.put<Assignment>(uri, assignment);
+
+    // dans la version tableau : rien à faire (pourquoi ? Parceque assignment
+    // est déjà un élément du tableau this.assignments)
+
+    //this.loggingService.log(assignment.nom, 'modifié');
+
+    //return of(`Assignment ${assignment.nom} modifié avec succès`)
+  }
+  patchAssignment(assignment:Assignment):Observable<any> {
+    const req  ={
+      note : assignment.note,
+      remarques: assignment.remarques,
+      dateRendu: new Date().toISOString().substring(0, 10)
+    }
+  const uri = this.uri_api + assignment._id + "/rendre";
+  return this.http.patch<Assignment>(uri, req);
 
     // dans la version tableau : rien à faire (pourquoi ? Parceque assignment
     // est déjà un élément du tableau this.assignments)

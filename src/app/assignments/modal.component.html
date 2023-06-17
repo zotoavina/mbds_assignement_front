@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>Rendre {{data.nom}}</h2>
+<h2 mat-dialog-title>Rendre {{data.copy.nom}}</h2>
+<p *ngIf="errorMessage" style="color:red" mat>{{errorMessage}}</p>
 <mat-dialog-content [formGroup]="noteForm">
   <div class="form-group">
     <mat-form-field>

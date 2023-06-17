@@ -192,18 +192,19 @@ constructor(
       const currentContainer = event.container;
       const previousIndex = event.previousIndex;
       const currentIndex = event.currentIndex;
-      const draggedItem = previousContainer.data[previousIndex];
+      const draggedItem: Assignment = JSON.parse(JSON.stringify(previousContainer.data[previousIndex]));
 
       const dialogConfig = new MatDialogConfig();
 
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.data = draggedItem;
+      dialogConfig.data = {real: previousContainer.data[previousIndex], copy:draggedItem};
       const dialogRef = this.dialog.open(ModalComponent, dialogConfig);
 
       dialogRef.afterClosed().subscribe((result) => {
         console.log(result);
         console.log(draggedItem);
+        console.log(this.assignmentsRendu);
         if (result && result !== draggedItem) {
           transferArrayItem(
             previousContainer.data,
@@ -223,9 +224,12 @@ constructor(
 })
 export class ModalComponent {
   noteForm: FormGroup;
+  errorMessage? : string;
+
   constructor(
+    private assignmentsService: AssignmentsService,
     public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Assignment,
+    @Inject(MAT_DIALOG_DATA) public data: {real:Assignment,copy:Assignment},
     private formBuilder: FormBuilder
   ) {
     this.noteForm = this.formBuilder.group({
@@ -239,13 +243,25 @@ export class ModalComponent {
   }
 
   onConfirm(): void {
-    const newData: Assignment = JSON.parse(JSON.stringify(this.data));
-    newData.note = this.noteForm.value.note;
-    newData.remarques = this.noteForm.value.remarks;
-    newData.rendu = true;
-    newData.dateDeRendu = new Date();
+    this.data.real.note = this.noteForm.value.note;
+    this.data.real.remarques = this.noteForm.value.remarks;
+    this.data.real.dateDeRendu = new Date();
+    this.assignmentsService.patchAssignment(this.data.real).subscribe(
+      (res) =>{
+      if(res.code == 202){
+        this.data.real = res.data;
+        this.dialogRef.close(this.data);
+      }else{
+        this.errorMessage = res.message;
+        this.data.real = this.data.copy;
+      }
+    },(error) => {
+      // Handle the error
+      this.errorMessage = error.message;
+      this.data.real = this.data.copy;
+      console.error(error);
+    });
 
-    this.dialogRef.close(newData);
   }
 
 }
