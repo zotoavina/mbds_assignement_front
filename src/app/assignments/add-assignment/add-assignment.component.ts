@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatiereService } from 'src/app/shared/matiere.service';
 import { EleveService } from 'src/app/shared/eleve.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-assignment',
@@ -43,6 +44,7 @@ export class AddAssignmentComponent implements OnInit{
     private router: Router,
     private matiereService: MatiereService,
     private eleveService: EleveService,
+    private snackBar: MatSnackBar
   ) {}
 
 
@@ -54,8 +56,10 @@ export class AddAssignmentComponent implements OnInit{
   onSubmit() {
     // On vérifie que les champs ne sont pas vides
     this.submit = true;
-    if(this.firstFormGroup.invalid || this.secondFormGroup.invalid || this.thirdFormGroup.invalid)
+    if(this.firstFormGroup.invalid || this.secondFormGroup.invalid || this.thirdFormGroup.invalid){
+      this.showSnackBar("Veuillez renseigner tous les champs", "error");
       return;
+    }
 
     let nouvelAssignment = new Assignment();
     // génération d'id, plus tard ce sera fait dans la BD
@@ -68,19 +72,20 @@ export class AddAssignmentComponent implements OnInit{
     // on demande au service d'ajouter l'assignment
     this.assignmentsService
       .addAssignment(nouvelAssignment)
-      .subscribe((message) => {
-        console.log(message);
+      .subscribe(this.onSuccess, this.onError)
+    }
 
-        // On va naviguer vers la page d'accueil pour afficher la liste
-        // des assignments
-        this.router.navigate(['/home']);
-      },
-      err => console.log(err)
-      );
+  onSuccess = (message: any) => {
+    console.log(message);
+    this.showSnackBar("Assignement enregistré avec succès", "success");
+    // On va naviguer vers la page d'accueil pour afficher la liste
+    // des assignments
+    this.router.navigate(['/home']);
   }
 
   onError = (err: any) =>{
     console.log(err);
+    this.showSnackBar("Une erreur s'est produite", "error");
   }
 
   // Recuperer les matières
@@ -105,5 +110,12 @@ export class AddAssignmentComponent implements OnInit{
 
   changeEleve(id: string){
     this.eleveSelected = this.eleves?.find(m => m._id == id)
+  }
+
+  showSnackBar(message: string, type: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, // Duration in milliseconds
+      panelClass: type === 'success' ? 'success-snackbar' : 'error-snackbar'
+    });
   }
 }

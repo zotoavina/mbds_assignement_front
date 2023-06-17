@@ -41,3 +41,15 @@ button{
 .btn-submit button{
   background-color: var(--green) !important;
 }
+
+/* Success Snackbar Styles */
+.success-snackbar {
+  background-color: green;
+  color: white;
+}
+
+/* Error Snackbar Styles */
+.error-snackbar {
+  background-color: red!important;
+  color: white;
+}
