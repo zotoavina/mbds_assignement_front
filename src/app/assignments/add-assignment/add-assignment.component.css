@@ -34,3 +34,10 @@ button{
   margin: 10px;
   color: white !important;
 }
+
+.btn-submit{
+  text-align: right;
+}
+.btn-submit button{
+  background-color: var(--green) !important;
+}

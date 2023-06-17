@@ -15,21 +15,26 @@ export class AddAssignmentComponent implements OnInit{
   // champs du formulaire
   nomDevoir = '';
   dateDeRendu!: Date;
-  
+  eleve!: string;
+  matiere!: string;
+
   matieres?: Matiere[];
   eleves?: Eleve[];
 
   matiereSelected?: Matiere;
+  eleveSelected?: Eleve;
+
+  submit: boolean = false;
 
   // Add Stepper
   firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
+    nomDevoir: [this.nomDevoir, Validators.required],
   });
   secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
+    matiere: [this.matiere, Validators.required],
   });
   thirdFormGroup = this._formBuilder.group({
-    dateDeRendu: [this.dateDeRendu, Validators.required],
+    eleve: [this.eleve, Validators.required],
   });
 
   constructor(
@@ -40,23 +45,25 @@ export class AddAssignmentComponent implements OnInit{
     private eleveService: EleveService,
   ) {}
 
-  
+
   ngOnInit(): void {
     this.initializeMatieres();
     this.initializeEleves();
   }
 
-  onSubmit(event: any) {
+  onSubmit() {
     // On vérifie que les champs ne sont pas vides
-    if (this.nomDevoir === '') return;
-    if (this.dateDeRendu === undefined) return;
+    this.submit = true;
+    if(this.firstFormGroup.invalid || this.secondFormGroup.invalid || this.thirdFormGroup.invalid)
+      return;
 
     let nouvelAssignment = new Assignment();
     // génération d'id, plus tard ce sera fait dans la BD
     nouvelAssignment.id = Math.abs(Math.random() * 1000000000000000);
     nouvelAssignment.nom = this.nomDevoir;
-    nouvelAssignment.dateDeRendu = this.dateDeRendu;
     nouvelAssignment.rendu = false;
+    nouvelAssignment.eleve_id = this.eleve;
+    nouvelAssignment.matiere_id = this.matiere;
 
     // on demande au service d'ajouter l'assignment
     this.assignmentsService
@@ -67,7 +74,9 @@ export class AddAssignmentComponent implements OnInit{
         // On va naviguer vers la page d'accueil pour afficher la liste
         // des assignments
         this.router.navigate(['/home']);
-      });
+      },
+      err => console.log(err)
+      );
   }
 
   onError = (err: any) =>{
@@ -81,7 +90,7 @@ export class AddAssignmentComponent implements OnInit{
       this.onError
     )
   }
-  
+
   // Recuperer les elèves
   initializeEleves(){
     this.eleveService.getAllEleves().subscribe(
@@ -92,5 +101,9 @@ export class AddAssignmentComponent implements OnInit{
 
   changeMatiere(id: string){
     this.matiereSelected = this.matieres?.find(m => m._id == id)
+  }
+
+  changeEleve(id: string){
+    this.eleveSelected = this.eleves?.find(m => m._id == id)
   }
 }
