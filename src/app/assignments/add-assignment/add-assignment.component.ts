@@ -51,6 +51,7 @@ export class AddAssignmentComponent implements OnInit{
   ngOnInit(): void {
     this.initializeMatieres();
     this.initializeEleves();
+    this.showSnackBar("dsdd", "success")
   }
 
   onSubmit() {
@@ -115,7 +116,7 @@ export class AddAssignmentComponent implements OnInit{
   showSnackBar(message: string, type: string) {
     this.snackBar.open(message, 'Close', {
       duration: 3000, // Duration in milliseconds
-      panelClass: type === 'success' ? 'success-snackbar' : 'error-snackbar'
+      panelClass: [type === 'success' ? 'success-snackbar' : 'error-snackbar']
     });
   }
 }

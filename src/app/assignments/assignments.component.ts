@@ -5,6 +5,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap } from 'rxjs';
 import { CdkDragDrop,moveItemInArray,transferArrayItem,CdkDrag,CdkDropList} from '@angular/cdk/drag-drop';
 import { HttpStatusCode } from '@angular/common/http';
+import { Reponse } from './../shared/reponse.model';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -53,24 +54,27 @@ constructor(
     this.getAssignments();
   }
 
+  // Callback pour la liste
+  onSuccessList = (reponse: any) =>{ 
+    if(reponse.code == HttpStatusCode.Accepted){
+      this.filterData(reponse.data.docs);
+      this.setPageProperties(reponse.data);
+    }else{
+      this.errorMessage = reponse.message;
+      console.log(this.errorMessage);
+    }
+  }
+
   getAssignments() {
     this.assignmentsService.getAssignments(this.page,this.limit).subscribe(
-      reponse =>{
-        if(reponse.code == HttpStatusCode.Accepted){
-          this.filterData(reponse.data);
-          console.log(this.assignments);
-          console.log(this.assignmentsRendu);
-        }else{
-          this.errorMessage = reponse.message;
-          console.log(this.errorMessage);
-        }
-      });
+      this.onSuccessList
+    );
   }
 
   private filterData(data: Assignment[]){
     if(data.length != 0){
-      this.assignments = data.filter( (item :Assignment) => item.rendu == false);
-      this.assignmentsRendu = data.filter( (item :Assignment) => item.rendu == true);
+      this.assignments = this.assignments.concat(data.filter( (item :Assignment) => item.rendu != true));
+      this.assignmentsRendu = this.assignmentsRendu.concat(data.filter( (item :Assignment) => item.rendu == true));
     }
   }
 
@@ -102,85 +106,34 @@ constructor(
       //throttleTime(200)
     )
     .subscribe((val) => {
-      console.log("val = " + val);
-      console.log("je CHARGE DE NOUVELLES DONNEES page = " + this.page);
+      // console.log("val = " + val);
+      // console.log("je CHARGE DE NOUVELLES DONNEES page = " + this.page);
       this.ngZone.run(() => {
         if(!this.hasNextPage) return;
 
         this.page = this.nextPage;
-        // this.getAddAssignmentsForScroll();
+        this.getAddAssignmentsForScroll();
       });
     });
   }
 
-  // getAssignments() {
-  //   console.log("On va chercher les assignments dans le service");
-
-  //   this.assignmentsService.getAssignments(this.page, this.limit)
-  //   .subscribe(data => {
-  //     this.assignments = data.docs;
-  //     this.page = data.page;
-  //     this.limit = data.limit;
-  //     this.totalDocs = data.totalDocs;
-  //     this.totalPages = data.totalPages;
-  //     this.hasPrevPage = data.hasPrevPage;
-  //     this.prevPage = data.prevPage;
-  //     this.hasNextPage = data.hasNextPage;
-  //     this.nextPage = data.nextPage;
-
-  //     console.log("Données reçues");
-  //   });
-  // }
-
-  // getAddAssignmentsForScroll() {
-  //   this.assignmentsService.getAssignments(this.page, this.limit)
-  //   .subscribe(data => {
-  //     // au lieu de remplacer le tableau, on va concaténer les nouvelles données
-  //     this.assignments = this.assignments.concat(data.docs);
-  //     // ou comme ceci this.assignments = [...this.assignments, ...data.docs]
-  //     //this.assignments = data.docs;
-  //     this.page = data.page;
-  //     this.limit = data.limit;
-  //     this.totalDocs = data.totalDocs;
-  //     this.totalPages = data.totalPages;
-  //     this.hasPrevPage = data.hasPrevPage;
-  //     this.prevPage = data.prevPage;
-  //     this.hasNextPage = data.hasNextPage;
-  //     this.nextPage = data.nextPage;
-
-  //     console.log("Données ajoutées pour scrolling");
-  //   });
-  // }
-
-  // premierePage() {
-  //   this.page = 1;
-  //   this.getAssignments();
-  // }
-
-  // pageSuivante() {
-  //   this.page = this.nextPage;
-  //   this.getAssignments();
-  // }
-
-  // pagePrecedente() {
-  //   this.page = this.prevPage;
-  //   this.getAssignments();
-  // }
-  // dernierePage() {
-  //   this.page = this.totalPages;
-  //   this.getAssignments();
-  // }
-
-  // // Pour mat-paginator
-  // handlePage(event: any) {
-  //   console.log(event);
-
-  //   this.page = event.pageIndex;
-  //   this.limit = event.pageSize;
-  //   this.getAssignments();
-  // }
+  getAddAssignmentsForScroll() {
+    this.assignmentsService.getAssignments(this.page, this.limit).subscribe(
+      this.onSuccessList
+    );
+  }
 
 
+  setPageProperties(data: any){
+    this.page = data.page;
+    this.limit = data.limit;
+    this.totalDocs = data.totalDocs;
+    this.totalPages = data.totalPages;
+    this.hasPrevPage = data.hasPrevPage;
+    this.prevPage = data.prevPage;
+    this.hasNextPage = data.hasNextPage;
+    this.nextPage = data.nextPage;
+  }
   // Drag and drop
 
   drop(event: CdkDragDrop<Assignment[]>) {
