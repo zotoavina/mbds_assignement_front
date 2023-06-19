@@ -37,6 +37,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import {DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export function playerFactory() {
   return player;
@@ -96,7 +97,8 @@ const routes: Routes = [
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule,MatStepperModule,MatSelectModule,
     DragDropModule , MatDialogModule,
-    LottieModule.forRoot({ player: playerFactory })
+    LottieModule.forRoot({ player: playerFactory }),
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -8,6 +8,8 @@ export class Assignment {
     eleve!:any;
     matiere!:any;
     remarques?:string;
+    eleve_id?: string;
+    matiere_id?: string;
 }
 
 export class Eleve{

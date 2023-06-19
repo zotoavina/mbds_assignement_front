@@ -34,3 +34,22 @@ button{
   margin: 10px;
   color: white !important;
 }
+
+.btn-submit{
+  text-align: right;
+}
+.btn-submit button{
+  background-color: var(--green) !important;
+}
+
+/* Success Snackbar Styles */
+.success-snackbar {
+  background-color: green;
+  color: white;
+}
+
+/* Error Snackbar Styles */
+.error-snackbar {
+  background-color: red!important;
+  color: white;
+}

@@ -8,5 +8,7 @@ export const SECRET_KEY_STORAGE = "secret";
 export const LOGIN = "login";
 export const USER = "user/"
 export const ASSIGNEMENT = "assignments/"
+export const MATIERE = "matieres/"
+export const ELEVE = "eleves/"
 
 

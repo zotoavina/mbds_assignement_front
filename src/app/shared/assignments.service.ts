@@ -172,4 +172,5 @@ uri_api = environment.apiUrl + ASSIGNEMENT;
     return forkJoin(appelsVersAddAssignment);
   }
 
+
 }
