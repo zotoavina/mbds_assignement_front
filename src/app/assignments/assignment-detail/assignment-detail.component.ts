@@ -21,12 +21,13 @@ export class AssignmentDetailComponent implements OnInit {
     // appelée avant le rendu du composant
     // on va chercher l'id dans l'url active
     // en mettant + on force la conversion en number
-    const id = +this.route.snapshot.params['id'];
+    const id = this.route.snapshot.params['id'];
     console.log("Dans le ngOnInit de detail, id = " + id);
 
     // on va chercher l'assignment à afficher
     this.assignmentsService.getAssignment(id)
       .subscribe(assignment => {
+        console.log(assignment);
         this.assignmentTransmis = assignment;
       });
   }

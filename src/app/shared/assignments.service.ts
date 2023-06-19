@@ -23,52 +23,15 @@ uri_api = environment.apiUrl + ASSIGNEMENT;
 
 
   getAssignments(page:number, limit:number):Observable<Reponse> {
-    // normalement on doit envoyer une requête HTTP
-    // sur un web service, et ça peut prendre du temps
-    // On a donc besoin "d'attendre que les données arrivent".
-    // Angular utilise pour cela la notion d'Observable
-
       const params = new HttpParams()
         .set('page', page)
         .set('limit', limit);
-
-      // Make the GET request
       return this.http.get<Reponse>(this.uri_api, { params });
-    // of() permet de créer un Observable qui va
-    // contenir les données du tableau assignments
-    //return of(this.assignments);
   }
 
-  getAssignment(id:number):Observable<Assignment|undefined> {
-    // Plus tard on utilisera un Web Service et une BD
-    return this.http.get<Assignment|undefined>(`${this.uri_api}/${id}`)
-
-    .pipe(
-      map(a => {
-        if(a) {
-          a.nom += " MAP MAP MAP";
-        }
-        return a;
-      }),
-      tap(a => {
-        if(a)
-          console.log("ICI DANS LE TAP " + a.nom)
-      }),
-      map(a => {
-        if(a) {
-          a.nom += " TOTOTOTO";
-        }
-        return a;
-      }),
-      catchError(this.handleError<Assignment>("Erreur dans le traitement de assignment avec id = " + id))
-    )
-
-    // On va chercher dans le tableau des assignments
-    // l'assignment dont l'id est celui passé en paramètre
-
-    //const assignment = this.assignments.find(a => a.id === id);
-    // on retourne cet assignment encapsulé dans un Observable
-    //return of(assignment);
+  getAssignment(id:number):Observable<Assignment> {
+    const uri = this.uri_api + id;
+    return this.http.get<Assignment>(uri);
   }
 
   private handleError<T>(operation: any, result?: T) {
