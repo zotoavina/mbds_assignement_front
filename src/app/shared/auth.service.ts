@@ -65,4 +65,23 @@ export class AuthService {
     // on renvoie la promesse qui dit si on est admin ou pas
     return isUserLoggedIn;
   }
+
+
+  isLoggedInAsAdmin(){
+    return this.isLoggedIn().then(
+      authentifie => {
+        if(authentifie){
+          return this.isAdmin()
+            .then(isAdmin => {
+              if(isAdmin) {
+                return true;
+              } else {
+                return false;
+              }
+            })
+        }else{
+          return false;
+        }
+      })
+  }
 }

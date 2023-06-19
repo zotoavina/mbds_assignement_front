@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 })
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis?: Assignment;
+  isAdmin: boolean = false;
 
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
@@ -21,6 +22,11 @@ export class AssignmentDetailComponent implements OnInit {
     // appelée avant le rendu du composant
     // on va chercher l'id dans l'url active
     // en mettant + on force la conversion en number
+    this.authService.isLoggedInAsAdmin().then(isAdmin => {
+      if(isAdmin) {
+        this.isAdmin = true;
+      }
+    });
     const id = this.route.snapshot.params['id'];
     console.log("Dans le ngOnInit de detail, id = " + id);
 
@@ -28,7 +34,7 @@ export class AssignmentDetailComponent implements OnInit {
     this.assignmentsService.getAssignment(id)
       .subscribe(assignment => {
         console.log(assignment);
-        this.assignmentTransmis = assignment;
+        this.assignmentTransmis = assignment.data;
       });
   }
 

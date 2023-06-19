@@ -29,9 +29,9 @@ uri_api = environment.apiUrl + ASSIGNEMENT;
       return this.http.get<Reponse>(this.uri_api, { params });
   }
 
-  getAssignment(id:number):Observable<Assignment> {
+  getAssignment(id:number):Observable<Reponse> {
     const uri = this.uri_api + id;
-    return this.http.get<Assignment>(uri);
+    return this.http.get<Reponse>(uri);
   }
 
   private handleError<T>(operation: any, result?: T) {

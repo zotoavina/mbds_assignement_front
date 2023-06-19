@@ -1,20 +1,36 @@
-<mat-card *ngIf="assignmentTransmis">
-  <mat-card-content>
+<main class="container">
+  <mat-card  *ngIf="assignmentTransmis" class="example-card">
+  <mat-card-header>
+    <div class="avatar-container">
+      <img class="avatar" [src]="assignmentTransmis.matiere.photoProf" alt="Avatar">
+    </div>
     <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
-    <mat-card-subtitle>Date de rendu : {{assignmentTransmis.dateDeRendu | date: 'dd/MM/yy'}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="assignmentTransmis.matiere.photo" alt="Image">
+  <mat-card-content>
+    <ul>
+      <li>Matière: {{assignmentTransmis.matiere.nom}}</li>
+      <li>Elève: {{assignmentTransmis.matiere.nom}}</li>
+      <li>Remarque: {{assignmentTransmis.remarques}}</li>
+    </ul>
   </mat-card-content>
-  <mat-card-actions id="bottom">
-    <mat-checkbox *ngIf="!assignmentTransmis.rendu" (click)="onAssignmentRendu()">
-      Rendu
+  <mat-card-footer>
+    <mat-checkbox
+       *ngIf="!assignmentTransmis.rendu" (click)="onAssignmentRendu()">
+        Rendu
     </mat-checkbox>
-
-    <button mat-raised-button color="primary"
-            (click)="onEditAssignment()"
-            [disabled]="!isLogged()"
-    >
-      EDIT
+    <div  *ngIf="assignmentTransmis.rendu" >
+      Note : {{assignmentTransmis.note}}
+    </div>
+    <div class="date-container">
+      <p>{{ assignmentTransmis.dateDeRendu | date }}</p>
+    </div>
+  </mat-card-footer>
+  <mat-card-actions *ngIf="isAdmin" id="bottom">
+    <button mat-raised-button color="primary" (click)="onEditAssignment()">
+      MODIFIER
     </button>
-
-  <button mat-raised-button color="accent" (click)="onDeleteAssignment()">DELETE</button>
+  <button mat-raised-button color="accent" (click)="onDeleteAssignment()">SUPPRIMER</button>
   </mat-card-actions>
 </mat-card>
+</main>

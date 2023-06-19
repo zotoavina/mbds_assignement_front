@@ -33,7 +33,7 @@ export class EditAssignmentComponent implements OnInit {
   console.log(queryParams);
   console.log("nom :"  + queryParams['nom'])
   console.log("matière :" + queryParams['matiere'])
- 
+
   // Exemple de récupération du fragment (après le # dans l'url)
   const fragment = this.route.snapshot.fragment;
   console.log("Fragment = " + fragment);
@@ -41,10 +41,10 @@ export class EditAssignmentComponent implements OnInit {
   this.assignmentsService.getAssignment(id)
   .subscribe((assignment) => {
     if (!assignment) return;
-    this.assignment = assignment;
+    this.assignment = assignment.data;
     // Pour pré-remplir le formulaire
-    this.nomAssignment = assignment.nom;
-    this.dateDeRendu = assignment.dateDeRendu;
+    this.nomAssignment = assignment.data.nom;
+    this.dateDeRendu = assignment.data.dateDeRendu;
   });
 }
 onSaveAssignment() {
