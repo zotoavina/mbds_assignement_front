@@ -8,6 +8,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../shared/auth.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-assignments',
@@ -43,7 +44,8 @@ constructor(
   private assignmentsService:AssignmentsService,
   private ngZone: NgZone,
   private dialog: MatDialog,
-  private authService: AuthService
+  private authService: AuthService,
+  private router: Router
 )
 {}
 
@@ -61,6 +63,10 @@ constructor(
     this.getAssignments();
   }
 
+  detail(itemId: string) {
+    // Replace 'details' with the actual route path for your details component
+    this.router.navigate(['/assignments/', itemId]);
+  }
   // Callback pour la liste
   onSuccessList = (reponse: any) =>{
     if(reponse.code == HttpStatusCode.Accepted){
