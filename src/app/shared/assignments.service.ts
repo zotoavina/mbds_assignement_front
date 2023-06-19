@@ -46,29 +46,16 @@ uri_api = environment.apiUrl + ASSIGNEMENT;
   addAssignment(assignment:Assignment):Observable<any> {
     this.loggingService.log(assignment.nom, 'ajouté');
 
-    // plus tard on utilisera un web service pour l'ajout dans une vraie BD
     return this.http.post<Assignment>(this.uri_api, assignment);
-    // on ajoute le devoir au tableau des devoirs
-    //this.assignments.push(assignment);
-    // on retourne un message de succès à travers
-    // un Observable
-    //return of(`Assignment ${assignment.nom} ajouté avec succès`);
   }
 
   updateAssignment(assignment:Assignment):Observable<any> {
-    // Normalement : on appelle un web service pour l'update des
-    // données
   const uri = this.uri_api + assignment._id;
   console.log(assignment);
   return this.http.put<Assignment>(uri, assignment);
-
-    // dans la version tableau : rien à faire (pourquoi ? Parceque assignment
-    // est déjà un élément du tableau this.assignments)
-
-    //this.loggingService.log(assignment.nom, 'modifié');
-
-    //return of(`Assignment ${assignment.nom} modifié avec succès`)
   }
+
+
   patchAssignment(assignment:Assignment):Observable<any> {
     const req  ={
       note : assignment.note,
@@ -77,28 +64,10 @@ uri_api = environment.apiUrl + ASSIGNEMENT;
     }
   const uri = this.uri_api + assignment._id + "/rendre";
   return this.http.patch<Assignment>(uri, req);
-
-    // dans la version tableau : rien à faire (pourquoi ? Parceque assignment
-    // est déjà un élément du tableau this.assignments)
-
-    //this.loggingService.log(assignment.nom, 'modifié');
-
-    //return of(`Assignment ${assignment.nom} modifié avec succès`)
   }
 
   deleteAssignment(assignment:Assignment):Observable<any> {
-    return this.http.delete(this.uri_api + "/" + assignment._id)
-      // pour supprimer on passe à la méthode splice
-    // l'index de l'assignment à supprimer et
-    // le nombre d'éléments à supprimer (ici 1)
-    /*
-    const index = this.assignments.indexOf(assignment);
-    this.assignments.splice(index, 1);
-
-    this.loggingService.log(assignment.nom, 'supprimé');
-
-    return of('Assignment supprimé avec succès')
-    */
+    return this.http.delete(this.uri_api + assignment._id);
   }
 
   peuplerBD() {

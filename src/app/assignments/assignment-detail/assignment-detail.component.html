@@ -16,7 +16,7 @@
   </mat-card-content>
   <mat-card-footer>
     <mat-checkbox
-       *ngIf="!assignmentTransmis.rendu" (click)="onAssignmentRendu()">
+       [checked]="assignmentTransmis.rendu">
         Rendu
     </mat-checkbox>
     <div  *ngIf="assignmentTransmis.rendu" >
@@ -26,7 +26,7 @@
       <p>{{ assignmentTransmis.dateDeRendu | date }}</p>
     </div>
   </mat-card-footer>
-  <mat-card-actions *ngIf="isAdmin" id="bottom">
+  <mat-card-actions *ngIf="isAdmin && (assignmentTransmis.rendu == null && !assignmentTransmis.rendu)" id="bottom">
     <button mat-raised-button color="primary" (click)="onEditAssignment()">
       MODIFIER
     </button>

@@ -19,9 +19,6 @@ export class AssignmentDetailComponent implements OnInit {
     private authService:AuthService) { }
 
   ngOnInit(): void {
-    // appelée avant le rendu du composant
-    // on va chercher l'id dans l'url active
-    // en mettant + on force la conversion en number
     this.authService.isLoggedInAsAdmin().then(isAdmin => {
       if(isAdmin) {
         this.isAdmin = true;
