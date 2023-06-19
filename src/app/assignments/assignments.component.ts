@@ -7,6 +7,7 @@ import { CdkDragDrop,moveItemInArray,transferArrayItem,CdkDrag,CdkDropList} from
 import { HttpStatusCode } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-assignments',
@@ -17,6 +18,7 @@ export class AssignmentsComponent implements OnInit {
 
 titre="Liste des devoirs à rendre";
 errorMessage?: string ;
+isDragEnabled: boolean= false;
 // les données à afficher
 assignments:Assignment[] = [];
 
@@ -40,7 +42,8 @@ nextPage: number = 0;
 constructor(
   private assignmentsService:AssignmentsService,
   private ngZone: NgZone,
-  private dialog: MatDialog
+  private dialog: MatDialog,
+  private authService: AuthService
 )
 {}
 
@@ -50,7 +53,11 @@ constructor(
     // page et limit, récupérer leur valeurs si elles existent
     // et les passer à la méthode getAssignments
     // TODO
-
+     this.authService.isAdmin().then(isAdmin => {
+      if(isAdmin) {
+        this.isDragEnabled = true;
+      }
+    });
     this.getAssignments();
   }
 

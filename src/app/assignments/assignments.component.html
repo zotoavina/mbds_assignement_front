@@ -1,12 +1,12 @@
-
+<h2>{{titre}}</h2>
 <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller style="margin: auto;">
   <main class="container">
     <div class="example-container">
-      <h2>To do</h2>
+      <h3>Non rendu</h3>
 
       <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="assignments" [cdkDropListConnectedTo]="[doneList]"
         class="example-list" (cdkDropListDropped)="drop($event)" >
-        <div class="example-box" *ngFor="let item of assignments" cdkDrag >
+        <div class="example-box" *ngFor="let item of assignments" [cdkDragDisabled]="!isDragEnabled" cdkDrag >
           <mat-card class="product-card">
             <mat-card-header>
               <mat-card-subtitle>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="example-container">
-      <h2>Done</h2>
+      <h3>Rendu</h3>
 
       <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="assignmentsRendu" class="example-list"
         (cdkDropListDropped)="drop($event)">
