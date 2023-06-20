@@ -14,20 +14,21 @@ export class DefaultLayoutComponent {
   labelConnexion = "Se connecter";
   nom:string = "";
   currentRoute:string = "";
+  isConnected:boolean = false;
+  isConnectedAsAdmin: boolean = false;
 
-  constructor(private authService:AuthService, 
+  constructor(private authService:AuthService,
               private router:Router,
               private assigmmentsService:AssignmentsService) {
     console.log(router.url);
-
+    this.isConnected = this.authService.loggedIn;
+    this.isConnectedAsAdmin = this.authService.loggedInAsAdmin;
     router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
         console.log(event.url);
         this.currentRoute = event.url;
       }
     });
-    
-    
   }
 
   // login() {

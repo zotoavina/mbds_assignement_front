@@ -19,11 +19,7 @@ export class AssignmentDetailComponent implements OnInit {
     private authService:AuthService) { }
 
   ngOnInit(): void {
-    this.authService.isLoggedInAsAdmin().then(isAdmin => {
-      if(isAdmin) {
-        this.isAdmin = true;
-      }
-    });
+    this.isAdmin = this.authService.loggedInAsAdmin;
     const id = this.route.snapshot.params['id'];
     console.log("Dans le ngOnInit de detail, id = " + id);
 

@@ -11,9 +11,27 @@ import { EncryptionService } from './encryption.service';
 })
 export class AuthService {
   loggedIn = false;
+  loggedInAsAdmin = false;
   base_url = environment.apiUrl + USER;
 
-  constructor(private http: HttpClient, private encryptionService: EncryptionService){ }
+  constructor(private http: HttpClient, private encryptionService: EncryptionService){
+    this.isLoggedIn().then(
+      authentifie => {
+        if(authentifie){
+          this.loggedIn =  true;
+          this.isAdmin()
+            .then(isAdmin => {
+              if(isAdmin) {
+                this.loggedInAsAdmin = true;
+              } else {
+                this.loggedInAsAdmin = false;
+              }
+            });
+        }else{
+          this.loggedIn =  false;
+        }
+      });
+    }
 
   // théoriquement, on devrait passer en paramètre le login
   // et le password, cette méthode devrait faire une requête
@@ -59,6 +77,7 @@ export class AuthService {
     const isUserLoggedIn = new Promise((resolve, reject) => {
       const role = localStorage.getItem(TOKEN_STORAGE);
       var res: boolean = (role)? true: false;
+      console.log(role);
       resolve(res);
     });
 
@@ -66,22 +85,4 @@ export class AuthService {
     return isUserLoggedIn;
   }
 
-
-  isLoggedInAsAdmin(){
-    return this.isLoggedIn().then(
-      authentifie => {
-        if(authentifie){
-          return this.isAdmin()
-            .then(isAdmin => {
-              if(isAdmin) {
-                return true;
-              } else {
-                return false;
-              }
-            })
-        }else{
-          return false;
-        }
-      })
-  }
 }

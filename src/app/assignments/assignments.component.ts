@@ -55,11 +55,7 @@ constructor(
     // page et limit, récupérer leur valeurs si elles existent
     // et les passer à la méthode getAssignments
     // TODO
-     this.authService.isLoggedInAsAdmin().then(isAdmin => {
-      if(isAdmin) {
-        this.isDragEnabled = true;
-      }
-    });
+    this.isDragEnabled = this.authService.loggedInAsAdmin;
     this.getAssignments();
   }
 

@@ -16,6 +16,9 @@
                 Matière: {{item.matiere.nom}}
               </mat-card-subtitle>
               <mat-card-subtitle>
+                Elève: {{item.eleve.nom}}
+              </mat-card-subtitle>
+              <mat-card-subtitle>
                 <small>à rendre le: {{item.dateDeRendu | date: 'dd/MM/yy'}}</small>
               </mat-card-subtitle>
               <div mat-card-avatar>
@@ -23,8 +26,8 @@
               </div>
             </mat-card-header>
             <mat-card-actions>
-              <button mat-button color="primary" (click)="editAssignment(item)">Modifier</button>
-              <button mat-button color="primary" (click)="viewDetails(item)">Détail</button>
+              <button mat-button color="primary" (click)="editAssignment(item)"><mat-icon>edit</mat-icon>Modifier</button>
+              <button mat-button color="primary" (click)="viewDetails(item)"><mat-icon>details</mat-icon>Détail</button>
             </mat-card-actions>
           </mat-card>
         </div>
@@ -46,6 +49,9 @@
                 Matière: {{item.matiere.nom}}
               </mat-card-subtitle>
               <mat-card-subtitle>
+                Elève: {{item.eleve.nom}}
+              </mat-card-subtitle>
+              <mat-card-subtitle>
                 <small>à rendre le: {{item.dateDeRendu | date: 'dd/MM/yy'}}</small>
               </mat-card-subtitle>
               <div mat-card-avatar>
@@ -53,7 +59,7 @@
               </div>
             </mat-card-header>
             <mat-card-actions>
-              <button mat-button color="primary" (click)="viewDetails(item)">Détail</button>
+              <button mat-button color="primary" (click)="viewDetails(item)"><mat-icon>details</mat-icon>Détail</button>
             </mat-card-actions>
           </mat-card>
         </div>
