@@ -13,56 +13,65 @@ import { MatSnackBar } from '@angular/material/snack-bar';
  styleUrls: ['./edit-assignment.component.css'],
 })
 export class EditAssignmentComponent {
- assignment!: Assignment | undefined;
- matieres?: Matiere[];
- eleves?: Eleve[];
+  assignment: Assignment | undefined;
+  matieres: Matiere[] | undefined;
+  eleves: Eleve[] | undefined;
+  matiereSelected: Matiere | undefined;
+  eleveSelected: Eleve | undefined;
+  submit: boolean = false;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
 
- matiereSelected?: Matiere;
- eleveSelected?: Eleve;
+  constructor(
+    private _formBuilder: FormBuilder,
+    private assignmentsService: AssignmentsService,
+    private router: Router,
+    private matiereService: MatiereService,
+    private eleveService: EleveService,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
+  ) {
+    this.firstFormGroup = this._formBuilder.group({
+      nomDevoir: ['', Validators.required],
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      matiere: ['', Validators.required],
+    });
+    this.thirdFormGroup = this._formBuilder.group({
+      eleve: ['', Validators.required],
+    });
+  }
 
- submit: boolean = false;
- firstFormGroup: FormGroup;
- secondFormGroup: FormGroup;
-
- thirdFormGroup: FormGroup;
-
-
- constructor(
-  private _formBuilder: FormBuilder,
-  private assignmentsService: AssignmentsService,
-  private router: Router,
-  private matiereService: MatiereService,
-  private eleveService: EleveService,
-  private snackBar: MatSnackBar,
-  private route: ActivatedRoute
-) {
+  ngOnInit() {
     this.getAssignment();
     this.initializeMatieres();
     this.initializeEleves();
-   // Add Stepper
-    this.firstFormGroup = this._formBuilder.group({
-      nomDevoir: [this.assignment?.nom, Validators.required],
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      matiere: [this.assignment?.matiere.nom, Validators.required],
-    });
-    this.thirdFormGroup = this._formBuilder.group({
-      eleve: [this.assignment?.eleve.nom, Validators.required],
-    });
-}
+  }
 
- getAssignment() {
-  const id = this.route.snapshot.params['id'];
+  getAssignment() {
+    const id = this.route.snapshot.params['id'];
 
-  this.assignmentsService.getAssignment(id)
-  .subscribe((assignment) => {
-    if (!assignment) return;
-    console.log(assignment);
-    this.assignment = assignment.data;
-    this.matiereSelected = assignment.data.matiere;
-    this.eleveSelected = assignment.data.eleve;
-  });
-}
+    this.assignmentsService.getAssignment(id).subscribe(
+      (assignment) => {
+        if (!assignment) return;
+        console.log(assignment);
+        this.assignment = assignment.data;
+        this.matiereSelected = assignment.data.matiere;
+        this.eleveSelected = assignment.data.eleve;
+
+        // Populate form values after assignment data is retrieved
+        this.firstFormGroup.patchValue({
+          nomDevoir: this.assignment?.nom,
+        });
+        this.secondFormGroup.get('matiere')?.setValue(this.assignment?.matiere._id);
+      this.thirdFormGroup.get('eleve')?.setValue(this.assignment?.eleve._id);
+      },(error) => {
+        console.log(error);
+        // Handle error, show error message, etc.
+      }
+    );
+  }
 
 onError = (err: any) =>{
   console.log(err);
@@ -101,7 +110,15 @@ showSnackBar(message: string, type: string) {
 }
 onUpdateAssignment() {
   if (!this.assignment) return;
-  this.assignmentsService.updateAssignment(this.assignment)
+  const updatedAssignment: Assignment = {
+    ...this.assignment,
+    nom: this.firstFormGroup.value.nomDevoir,
+    matiere: this.matiereSelected,
+    eleve: this.eleveSelected,
+    matiere_id: this.matiereSelected?._id,
+    eleve_id: this.eleveSelected?._id
+  };
+  this.assignmentsService.updateAssignment(updatedAssignment)
     .subscribe((message) => {
       console.log(message);
       // navigation vers la home page

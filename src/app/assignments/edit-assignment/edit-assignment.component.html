@@ -1,4 +1,3 @@
-<!-- ADD STEPPER -->
 <mat-card>
   <mat-card-content>
     <mat-stepper [linear]="false" #stepper>
@@ -7,8 +6,7 @@
           <ng-template matStepLabel>Devoir</ng-template>
           <mat-form-field>
             <mat-label>Titre</mat-label>
-            <input matInput type="text" placeholder="Titre du devoir"
-              formControlName="nomDevoir" [value]="assignment?.nom" required>
+            <input matInput type="text" placeholder="Titre du devoir" formControlName="nomDevoir" [value]="assignment?.nom" required>
             <mat-error *ngIf="firstFormGroup.controls['nomDevoir'].hasError('required') && submit">
               Le titre du devoir est requis
             </mat-error>
@@ -24,10 +22,8 @@
           <div class="form-container">
             <mat-form-field>
               <mat-label>Matière</mat-label>
-              <mat-select (valueChange)="changeMatiere($event)"
-                formControlName="matiere" [value]="assignment?.matiere.nom"
-              >
-                <mat-option *ngFor="let mat of matieres" [value]="mat._id" >
+              <mat-select (valueChange)="changeMatiere($event)" formControlName="matiere">
+                <mat-option *ngFor="let mat of matieres" [value]="mat._id">
                   {{mat.nom}}
                 </mat-option>
               </mat-select>
@@ -45,7 +41,6 @@
             <div class="image-container" *ngIf="matiereSelected">
               <img [src]="matiereSelected.photoProf" mat-card-md-image>
             </div>
-
           </div>
           <div class="button-container">
             <button mat-button matStepperPrevious>Back</button>
@@ -54,14 +49,12 @@
         </form>
       </mat-step>
 
-
       <mat-step [stepControl]="thirdFormGroup" label="Elève">
         <form [formGroup]="thirdFormGroup">
           <div class="form-container">
             <mat-form-field>
               <mat-label>Elève</mat-label>
-              <mat-select (valueChange)="changeEleve($event)"
-               formControlName="eleve">
+              <mat-select (valueChange)="changeEleve($event)" formControlName="eleve">
                 <mat-option *ngFor="let mat of eleves" [value]="mat._id" >
                   {{mat.nom}}
                 </mat-option>
@@ -78,11 +71,9 @@
         </form>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button  color="success" (click)="onUpdateAssignment()">Modifier</button>
+          <button mat-button color="success" (click)="onUpdateAssignment()">Modifier</button>
         </div>
       </mat-step>
     </mat-stepper>
   </mat-card-content>
 </mat-card>
-
-
