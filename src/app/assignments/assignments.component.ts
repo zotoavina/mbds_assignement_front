@@ -197,8 +197,7 @@ constructor(
             previousIndex,
             currentIndex
           );
-        }
-        this.showSnackBar("Devoir rendu avec succes", "success");
+          }
       });
     }
   }
@@ -216,7 +215,8 @@ export class ModalComponent {
     private assignmentsService: AssignmentsService,
     public dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {real:Assignment,copy:Assignment},
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar
   ) {
     this.noteForm = this.formBuilder.group({
       note: ['', Validators.required],
@@ -228,6 +228,13 @@ export class ModalComponent {
     this.dialogRef.close();
   }
 
+  showSnackBar(message: string, type: string) {
+    this.snackBar.open(message, 'Fermer', {
+      duration: 3000, // Duration in milliseconds
+      panelClass: [type === 'success' ? 'success-snackbar' : 'error-snackbar']
+    });
+  }
+
   onConfirm(): void {
     this.data.real.note = this.noteForm.value.note;
     this.data.real.remarques = this.noteForm.value.remarks;
@@ -237,6 +244,7 @@ export class ModalComponent {
       if(res.code == 202){
         this.data.real = res.data;
         this.dialogRef.close(this.data);
+        this.showSnackBar("Devoir rendu avec succes", "success");
       }else{
         this.errorMessage = res.message;
         this.data.real = this.data.copy;
