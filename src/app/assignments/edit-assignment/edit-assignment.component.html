@@ -1,18 +1,88 @@
-<div class="container" *ngIf="assignment">
-    <h1>Edition de l'assignment {{assignment.nom}}</h1>
-    <form ngForm class="form" #formupdate (submit)="onSaveAssignment(); formupdate.reset(); ">
-      <mat-form-field>
-        <input matInput placeholder="Edition du nom" [(ngModel)]="nomAssignment" name="assignment-name">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Edition de la date" [(ngModel)]="dateDeRendu" name="date">
-        <mat-datepicker-toggle matSuffix [for]="picker">
-        </mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <button mat-raised-button color="primary" [disabled]="((!nomAssignment)||(!dateDeRendu))">
-        Sauver
-      </button>
-    </form>
-   </div>
-      
+<!-- ADD STEPPER -->
+<mat-card>
+  <mat-card-content>
+    <mat-stepper [linear]="false" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Devoir</ng-template>
+          <mat-form-field>
+            <mat-label>Titre</mat-label>
+            <input matInput type="text" placeholder="Titre du devoir"
+              formControlName="nomDevoir" [value]="assignment?.nom" required>
+            <mat-error *ngIf="firstFormGroup.controls['nomDevoir'].hasError('required') && submit">
+              Le titre du devoir est requis
+            </mat-error>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="secondFormGroup" label="Matière">
+        <form [formGroup]="secondFormGroup">
+          <div class="form-container">
+            <mat-form-field>
+              <mat-label>Matière</mat-label>
+              <mat-select (valueChange)="changeMatiere($event)"
+                formControlName="matiere" [value]="assignment?.matiere.nom"
+              >
+                <mat-option *ngFor="let mat of matieres" [value]="mat._id" >
+                  {{mat.nom}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="secondFormGroup.controls['matiere'].hasError('required') && submit">
+              Veuillez sélectionner une matière
+            </mat-error>
+
+            <div class="image-container me-2" *ngIf="matiereSelected">
+              <img [src]="matiereSelected.photo" mat-card-md-image>
+            </div>
+            <div class="image-container me-2" *ngIf="matiereSelected">
+              <p>Professeur: </p>
+            </div>
+            <div class="image-container" *ngIf="matiereSelected">
+              <img [src]="matiereSelected.photoProf" mat-card-md-image>
+            </div>
+
+          </div>
+          <div class="button-container">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+
+      <mat-step [stepControl]="thirdFormGroup" label="Elève">
+        <form [formGroup]="thirdFormGroup">
+          <div class="form-container">
+            <mat-form-field>
+              <mat-label>Elève</mat-label>
+              <mat-select (valueChange)="changeEleve($event)"
+               formControlName="eleve">
+                <mat-option *ngFor="let mat of eleves" [value]="mat._id" >
+                  {{mat.nom}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="thirdFormGroup.controls['eleve'].hasError('required') && submit">
+              Veuillez sélectionner un élève
+            </mat-error>
+
+            <div class="image-container me-2" *ngIf="eleveSelected">
+              <img [src]="eleveSelected.photo" mat-card-md-image>
+            </div>
+          </div>
+        </form>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button  color="success" (click)="onUpdateAssignment()">Modifier</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </mat-card-content>
+</mat-card>
+
+
