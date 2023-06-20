@@ -21,8 +21,17 @@ export class DefaultLayoutComponent {
               private router:Router,
               private assigmmentsService:AssignmentsService) {
     console.log(router.url);
-    this.isConnected = this.authService.loggedIn;
-    this.isConnectedAsAdmin = this.authService.loggedInAsAdmin;
+    this.authService.isLoggedIn().then(authentifie => {
+      if(authentifie){
+        this.isConnected = true;
+        this.authService.isLoggedInAsAdmin().then(isAdmin => {
+          if(isAdmin) {
+            this.isConnectedAsAdmin = true;
+          }
+        });
+      }
+    })
+
     router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
         console.log(event.url);

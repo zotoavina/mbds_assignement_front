@@ -49,10 +49,6 @@ export class LoginComponent{
           localStorage.setItem(TOKEN_STORAGE, response.data.token);
           let role = this.encryptionService.encrypt(response.data.role);
           localStorage.setItem(ROLE_STORAGE,role);
-          this.authService.loggedIn = true;
-          if(response.data.role == "Admin"){
-            this.authService.loggedInAsAdmin = true;
-          }
           this.router.navigate(['/home']);
         }else{
             this.message = response.message;

@@ -49,9 +49,7 @@ constructor(
   private snackBar: MatSnackBar,
   private router: Router
 )
-{
-  console.log("OnInit Composant instancié et juste avant le rendu HTML (le composant est visible dans la page HTML)");
-}
+{}
 
   ngOnInit(): void {
     console.log("OnInit Composant instancié et juste avant le rendu HTML (le composant est visible dans la page HTML)");
@@ -59,7 +57,11 @@ constructor(
     // page et limit, récupérer leur valeurs si elles existent
     // et les passer à la méthode getAssignments
     // TODO
-    this.isDragEnabled = this.authService.loggedInAsAdmin;
+     this.authService.isLoggedInAsAdmin().then(isAdmin => {
+      if(isAdmin) {
+        this.isDragEnabled = true;
+      }
+    });
     this.getAssignments();
   }
 
@@ -70,7 +72,6 @@ constructor(
   // Callback pour la liste
   onSuccessList = (reponse: any) =>{
     if(reponse.code == HttpStatusCode.Accepted){
-      console.log(reponse);
       this.filterData(reponse.data.docs);
       this.setPageProperties(reponse.data);
     }else{

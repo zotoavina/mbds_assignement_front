@@ -6,7 +6,7 @@
     <li  *ngIf="isConnectedAsAdmin"><a routerLink="/add"><mat-icon>assignment</mat-icon>Assigner</a></li>
   </ul>
   <button class="logout-button" *ngIf="!isConnected"><a routerLink="/login">Se connecter</a></button>
-  <button class="logout-button" *ngIf="isConnected">Se déconnecter</button>
+  <button class="logout-button" *ngIf="isConnected" (click)="logout()">Se déconnecter</button>
 </nav>
 <div class="main">
   <router-outlet></router-outlet>
