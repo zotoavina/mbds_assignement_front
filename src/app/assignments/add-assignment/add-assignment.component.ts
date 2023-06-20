@@ -30,6 +30,7 @@ export class AddAssignmentComponent implements OnInit{
   // Add Stepper
   firstFormGroup = this._formBuilder.group({
     nomDevoir: [this.nomDevoir, Validators.required],
+    dateDeRendu: [this.dateDeRendu, Validators.required],
   });
   secondFormGroup = this._formBuilder.group({
     matiere: [this.matiere, Validators.required],
@@ -66,6 +67,7 @@ export class AddAssignmentComponent implements OnInit{
     nouvelAssignment.id = Math.abs(Math.random() * 1000000000000000);
     nouvelAssignment.nom = this.nomDevoir;
     nouvelAssignment.rendu = false;
+    nouvelAssignment.dateDeRendu = this.dateDeRendu;
     nouvelAssignment.eleve_id = this.eleve;
     nouvelAssignment.matiere_id = this.matiere;
 
