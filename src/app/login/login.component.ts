@@ -22,14 +22,14 @@ export class LoginComponent{
   };
 
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private authService: AuthService,
     private encryptionService: EncryptionService,
     private router: Router
   ){
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required]],
-      mdp: ['', Validators.required]
+      email: ['ekaly@gmail.com', [Validators.required]],
+      mdp: ['123456', Validators.required]
     });
   }
 
@@ -49,7 +49,11 @@ export class LoginComponent{
           localStorage.setItem(TOKEN_STORAGE, response.data.token);
           let role = this.encryptionService.encrypt(response.data.role);
           localStorage.setItem(ROLE_STORAGE,role);
-          this.router.navigate(['/home']); 
+          this.authService.loggedIn = true;
+          if(response.data.role == "Admin"){
+            this.authService.loggedInAsAdmin = true;
+          }
+          this.router.navigate(['/home']);
         }else{
             this.message = response.message;
         }
