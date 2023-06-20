@@ -77,7 +77,6 @@ export class AuthService {
     const isUserLoggedIn = new Promise((resolve, reject) => {
       const role = localStorage.getItem(TOKEN_STORAGE);
       var res: boolean = (role)? true: false;
-      console.log(role);
       resolve(res);
     });
 

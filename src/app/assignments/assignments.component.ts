@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../shared/auth.service';
 import { Route, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-assignments',
@@ -45,9 +46,12 @@ constructor(
   private ngZone: NgZone,
   private dialog: MatDialog,
   private authService: AuthService,
+  private snackBar: MatSnackBar,
   private router: Router
 )
-{}
+{
+  console.log("OnInit Composant instancié et juste avant le rendu HTML (le composant est visible dans la page HTML)");
+}
 
   ngOnInit(): void {
     console.log("OnInit Composant instancié et juste avant le rendu HTML (le composant est visible dans la page HTML)");
@@ -66,6 +70,7 @@ constructor(
   // Callback pour la liste
   onSuccessList = (reponse: any) =>{
     if(reponse.code == HttpStatusCode.Accepted){
+      console.log(reponse);
       this.filterData(reponse.data.docs);
       this.setPageProperties(reponse.data);
     }else{
@@ -155,6 +160,12 @@ constructor(
     this.hasNextPage = data.hasNextPage;
     this.nextPage = data.nextPage;
   }
+  showSnackBar(message: string, type: string) {
+    this.snackBar.open(message, 'Fermer', {
+      duration: 3000, // Duration in milliseconds
+      panelClass: [type === 'success' ? 'success-snackbar' : 'error-snackbar']
+    });
+  }
   // Drag and drop
 
   drop(event: CdkDragDrop<Assignment[]>) {
@@ -186,6 +197,7 @@ constructor(
             currentIndex
           );
         }
+        this.showSnackBar("Devoir rendu avec succes", "success");
       });
     }
   }

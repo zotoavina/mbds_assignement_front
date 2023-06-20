@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatiereService } from 'src/app/shared/matiere.service';
 import { EleveService } from 'src/app/shared/eleve.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
  selector: 'app-edit-assignment',
@@ -119,10 +120,19 @@ onUpdateAssignment() {
     eleve_id: this.eleveSelected?._id
   };
   this.assignmentsService.updateAssignment(updatedAssignment)
-    .subscribe((message) => {
-      console.log(message);
-      // navigation vers la home page
-      this.router.navigate(['/home']);
+    .subscribe(
+      (message) => {
+      if(message.code == HttpStatusCode.Accepted){
+        console.log(message);
+        this.showSnackBar("Assignement modifié avec succès", "success");
+        // navigation vers la home page
+        this.router.navigate(['/home']);
+      }else{
+        this.showSnackBar(message.message,"erreur");
+      }
+     }, (error: any) =>{
+      console.log(error);
+      this.showSnackBar("Une erreur est survenue lors du modification", "error");
     });
 }
 }
