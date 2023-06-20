@@ -1,17 +1,17 @@
 @import './../../styles.css';
 
-::ng-deep .mat-mdc-card {
+:host .mat-mdc-card {
   width: 400px;
   background-color: var(--blue) !important;
   justify-content: center;
   border: 1px solid var(--dark-blue);
 }
 
-::ng-deep .mat-mdc-card-title {
+:host .mat-mdc-card-title {
   height: 100px !important;
 }
 
-::ng-deep .mat-icon {
+:host .mat-icon {
   font-size: 100px !important;
   color: var(--green);
   height: 100px !important;
@@ -28,12 +28,12 @@
   margin: 100px 0px;
 }
 
-.mat-form-field {
+:host .mat-form-field {
   width: 100%;
 }
 
-mat-card-title,
-mat-card-content {
+:host mat-card-title,
+:host mat-card-content {
   display: flex;
   justify-content: center;
 }
@@ -47,16 +47,10 @@ mat-card-content {
   justify-content: flex-end;
 }
 
-::ng-deep .mat-mdc-raised-button.mat-primary {
+:host .mat-mdc-raised-button.mat-primary {
   background-color: var(--pink) !important;
 }
 
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+:host .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: var(--blue) !important;
-}
-
-:host{
-    display: flex;
-    justify-content: space-evenly;
-    margin: 50px 50px 0px;
 }

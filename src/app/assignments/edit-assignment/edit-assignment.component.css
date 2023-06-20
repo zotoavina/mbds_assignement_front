@@ -1,5 +1,3 @@
-@import './../../../styles.css';
-
 .form {
     display: flex;
     flex-direction: column;
@@ -13,7 +11,7 @@
   margin-top: 16px;
 }
 
-::ng-deep .mat-mdc-card {
+:host .mat-mdc-card {
   width: 800px;
   margin: 30px 20%;
   height: 400px;
@@ -44,12 +42,12 @@ button{
 
 
 /* Style local */
-::ng-deep .success-snackbar {
+:host .success-snackbar {
   background-color: #50bfa5!important; /* Couleur de fond en cas de succès */
   color: #000000!important; /* Couleur du texte en cas de succès */
 }
 
-::ng-deep .error-snackbar {
+:host .error-snackbar {
   background-color: #CB2823!important; /* Couleur de fond en cas d'erreur */
   color: #ffffff!important; /* Couleur du texte en cas d'erreur */
 }

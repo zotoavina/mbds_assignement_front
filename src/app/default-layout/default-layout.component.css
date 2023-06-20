@@ -1,4 +1,4 @@
-.navbar {
+.my-navbar.navbar {
   background-color: var(--green);
   color: #fff;
   display: flex;
@@ -6,25 +6,25 @@
   padding: 0px 10px;
 }
 
-.logo {
+.my-navbar .logo {
   font-size: 20px;
   text-decoration: none;
   color: #fff;
 }
 
-.spacer {
-  flex-grow: 1; /* Fill the remaining space in the navbar */
+.my-navbar .spacer {
+  flex-grow: 1;
 }
 
-.nav-links {
+.my-navbar .nav-links {
   list-style: none;
   display: flex;
   gap: 20px;
 }
 
-.nav-links li a {
-  display: flex; /* Align icon and text horizontally */
-  align-items: center; /* Center icon and text vertically */
+.my-navbar .nav-links li a {
+  display: flex;
+  align-items: center;
   text-decoration: none;
   color: #fff;
   padding: 8px 12px;
@@ -32,18 +32,18 @@
   transition: background-color 0.3s ease;
 }
 
-.nav-links li a:hover,
-.nav-links li a:focus {
+.my-navbar .nav-links li a:hover,
+.my-navbar .nav-links li a:focus {
   background-color: rgba(255, 255, 255, 0.2);
   outline: none;
 }
 
-.nav-links li a.active {
+.my-navbar .nav-links li a.active {
   background-color: rgba(255, 255, 255, 0.4);
 }
 
-.logout-button {
-  margin-left: 20px; /* Add margin between menu items and logout button */
+.my-navbar .logout-button {
+  margin-left: 20px;
   background-color: #fff;
   color: #333;
   border: none;
@@ -52,9 +52,10 @@
   cursor: pointer;
 }
 
-.logout-button:hover {
+.my-navbar .logout-button:hover {
   background-color: #eee;
 }
-.main{
+
+.main {
   margin: 10px;
 }
