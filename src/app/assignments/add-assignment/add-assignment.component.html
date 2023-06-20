@@ -6,7 +6,7 @@
       <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
           <ng-template matStepLabel>Devoir</ng-template>
-          <mat-form-field>
+          <mat-form-field class="me-2">
             <mat-label>Titre</mat-label>
             <input matInput [(ngModel)]="nomDevoir" placeholder="Titre du devoir"
               formControlName="nomDevoir" required>
@@ -14,6 +14,15 @@
               Le titre du devoir est requis
             </mat-error>
           </mat-form-field>
+          <mat-form-field>
+            <mat-label>Date de rendu</mat-label>
+            <input matInput type="date" [(ngModel)]="dateDeRendu" placeholder="Date de rendu"
+              formControlName="dateDeRendu" required>
+            <mat-error *ngIf="firstFormGroup.controls['dateDeRendu'].hasError('required') && submit">
+              La date de rendu est requise
+            </mat-error>
+          </mat-form-field>
+
           <div>
             <button mat-button matStepperNext>Next</button>
           </div>
