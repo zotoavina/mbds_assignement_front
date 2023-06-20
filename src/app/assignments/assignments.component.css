@@ -1,144 +1,144 @@
 .container {
-    display:flex;
-    flex-direction:row;
-    justify-content: space-evenly;
+    display:flex !important;
+    flex-direction:row !important;
+    justify-content: space-evenly !important;
 }
 
 .ajouterBtn {
-    align-self: flex-end;
+    align-self: flex-end !important;
 }
 
 .example-viewport {
-    height: 700px;
-    width: 100%;
-    border: 1px solid black;
+    height: 700px !important;
+    width: 100% !important;
+    border: 1px solid black !important;
   }
 
   .example-item {
-    height: 150px;
+    height: 150px !important;
   }
 
   .demo-table {
-    width: 100%;
+    width: 100% !important;
   }
 
   .mat-column-id {
-    width: 32px;
-    border-right: 1px solid currentColor;
-    padding-right: 24px;
-    text-align: center;
+    width: 32px !important;
+    border-right: 1px solid currentColor !important;
+    padding-right: 24px !important;
+    text-align: center !important;
   }
 
   .mat-column-nom {
-    padding-left: 16px;
-    font-size: 20px;
+    padding-left: 16px !important;
+    font-size: 20px !important;
   }
 
   .mat-column-dateDeRendu {
-    font-style: italic;
+    font-style: italic !important;
   }
 
   .mat-column-rendu {
-    width: 32px;
-    text-align: center;
-    font-weight: bold;
+    width: 32px !important;
+    text-align: center !important;
+    font-weight: bold !important;
   }
 
 
   /* Drag and drop  */
   .example-container {
-    width: 400px;
-    max-width: 100%;
-    margin: 0 25px 25px 0;
-    display: inline-block;
-    vertical-align: top;
+    width: 400px !important;
+    max-width: 100% !important;
+    margin: 0 25px 25px 0 !important;
+    display: inline-block !important;
+    vertical-align: top !important;
   }
 
   .example-list {
-    border: solid 1px #ccc;
-    min-height: 60px;
-    background: white;
-    border-radius: 4px;
-    overflow: hidden;
-    display: block;
+    border: solid 1px #ccc !important;
+    min-height: 60px !important;
+    background: white !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+    display: block !important;
   }
 
   .example-box {
-    width: 100%;
-    padding: 10px 20px;
-    border-bottom: solid 1px #ccc;
-    color: rgba(0, 0, 0, 0.87);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    cursor: move;
-    font-size: 14px;
+    width: 100% !important;
+    padding: 10px 20px !important;
+    border-bottom: solid 1px #ccc !important;
+    color: rgba(0, 0, 0, 0.87) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    cursor: move !important;
+    font-size: 14px !important;
   }
 
   .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: black;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background-color: black !important;
   }
 
   .cdk-drag-placeholder {
-    opacity: 0;
+    opacity: 0 !important;
   }
 
   .cdk-drag-animating {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1) !important;
   }
 
   .example-box:last-child {
-    border: none;
+    border: none !important;
   }
 
   .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1) !important;
   }
 
   .product-card, .product-card-done {
-    height: 100px;
-    width: 100%;
-    display: flex;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    background: var(--blue);
+    height: 150px !important;
+    width: 100% !important;
+    display: flex !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+    overflow: hidden !important;
+    background: var(--blue) !important;
   }
 
   .product-card {
-    background: var(--blue);
+    background: var(--blue) !important;
   }
   .product-card-done {
-    background: var(--green);
+    background: var(--green) !important;
   }
 
   .product-card-image {
-    width: 10px;
+    width: 10px !important;
   }
 
   .product-card-details {
-    flex: 1 1 auto;
-    background-color: #f5f5f5;
+    flex: 1 1 auto !important;
+    background-color: #f5f5f5 !important;
   }
 
   .product-card-header {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    margin-bottom: 8px !important;
   }
 
   .product-card-footer {
-    font-size: 14px;
-    color: #777777;
+    font-size: 14px !important;
+    color: #777777 !important;
   }
 
 /* css for modal */
 
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
 }
 

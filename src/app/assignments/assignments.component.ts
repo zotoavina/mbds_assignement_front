@@ -136,6 +136,18 @@ constructor(
     );
   }
 
+  editAssignment(item: any) {
+    console.log(item);
+    // Navigate to the edit page with the item's ID as a parameter
+    this.router.navigate(['/assignments/'+item._id+'/edit', ]);
+  }
+
+  viewDetails(item: any) {
+    console.log(item);
+    // Navigate to the details page with the item's ID as a parameter
+    this.router.navigate(['/assignments/'+item._id]);
+  }
+
 
   setPageProperties(data: any){
     this.page = data.page;
