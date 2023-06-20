@@ -1,0 +1,56 @@
+@import './../../styles.css';
+
+:host .mat-mdc-card {
+  width: 400px;
+  background-color: var(--blue) !important;
+  justify-content: center;
+  border: 1px solid var(--dark-blue);
+}
+
+:host .mat-mdc-card-title {
+  height: 100px !important;
+}
+
+:host .mat-icon {
+  font-size: 100px !important;
+  color: var(--green);
+  height: 100px !important;
+  width: 100px !important;
+}
+.button{
+  justify-content: center !important;
+}
+
+
+:host {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0px;
+}
+
+:host .mat-form-field {
+  width: 100%;
+}
+
+:host mat-card-title,
+:host mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+:host .mat-mdc-raised-button.mat-primary {
+  background-color: var(--pink) !important;
+}
+
+:host .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: var(--blue) !important;
+}

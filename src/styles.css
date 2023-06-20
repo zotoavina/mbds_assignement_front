@@ -1,4 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
-
+:root{
+  --green:#50bfa5;
+  --blue: #eef6fd;
+  --pink: #f48c7f;
+  --dark-blue:#5f9cf3;
+}
 html, body { height: 100%; }
 body { margin: 120; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.success-snackbar {
+  color: white;
+  --mdc-snackbar-container-color: var(--success-color);
+  --mat-mdc-snack-bar-button-color: var(--white-color);
+}
+
+.error-snackbar {
+  max-width: max-content !important;
+  color: white;
+  --mdc-snackbar-container-color: var(--delete-color);
+  border-color: #f5c6cb;
+  --mat-mdc-snack-bar-button-color: var(--white-color);
+}

@@ -3,3 +3,51 @@
     flex-direction: column;
     margin:5px;
 }
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+:host .mat-mdc-card {
+  width: 800px;
+  margin: 30px 20%;
+  height: 400px;
+  justify-content: center;
+}
+
+.form-container {
+  display: flex;
+  align-items: center;
+}
+
+.image-container {
+  margin-left: 20px;
+}
+
+button{
+  background-color: var(--pink) !important;
+  margin: 10px;
+  color: white !important;
+}
+
+.btn-submit{
+  text-align: right;
+}
+.btn-submit button{
+  background-color: var(--green) !important;
+}
+
+
+/* Style local */
+:host .success-snackbar {
+  background-color: #50bfa5!important; /* Couleur de fond en cas de succès */
+  color: #000000!important; /* Couleur du texte en cas de succès */
+}
+
+:host .error-snackbar {
+  background-color: #CB2823!important; /* Couleur de fond en cas d'erreur */
+  color: #ffffff!important; /* Couleur du texte en cas d'erreur */
+}

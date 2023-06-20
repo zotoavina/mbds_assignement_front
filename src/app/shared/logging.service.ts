@@ -10,4 +10,5 @@ export class LoggingService {
   log(assignmentName:string, action:string) {
     console.log("LOGGING SERVICE : Assignment " + assignmentName + " " + action);
   }
+
 }

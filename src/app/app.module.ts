@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,9 +18,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-import { AssignmentsComponent } from './assignments/assignments.component';
+import { AssignmentsComponent, ModalComponent } from './assignments/assignments.component';
 import { RenduDirective } from './shared/rendu.directive';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
@@ -29,33 +29,52 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { authGuard } from './shared/auth.guard';
-import { LoginComponent } from './login/login.component';  
+import { LoginComponent } from './login/login.component';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+import { DefaultLayoutComponent } from './default-layout/default-layout.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatSelectModule} from '@angular/material/select';
+import {DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { LoadingInterceptor } from './shared/loading.interceptor.spec';
+
+export function playerFactory() {
+  return player;
+}
 
 const routes: Routes = [
   {
-    path: '',
-    component: AssignmentsComponent
-  },
-  {
-    path: 'home',
-    component: AssignmentsComponent
-  },
-  {
-    path: 'add',
-    component: AddAssignmentComponent
-  },
-  {
-    path: 'assignments/:id',
-    component: AssignmentDetailComponent
-  },
-  {
-    path: 'assignments/:id/edit',
-    component: EditAssignmentComponent,
-    canActivate: [authGuard]
-  },
-  {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+    children:[ {
+      path: '',
+      component: AssignmentsComponent
+    },
+    {
+      path: 'home',
+      component: AssignmentsComponent
+    },
+    {
+      path: 'add',
+      component: AddAssignmentComponent,
+      canActivate: [authGuard]
+    },
+    {
+      path: 'assignments/:id',
+      component: AssignmentDetailComponent
+    },
+    {
+      path: 'assignments/:id/edit',
+      component: EditAssignmentComponent,
+      canActivate: [authGuard]
+    }]
   }
 ]
 @NgModule({
@@ -66,20 +85,28 @@ const routes: Routes = [
     AssignmentDetailComponent,
     AddAssignmentComponent,
     EditAssignmentComponent,
-    LoginComponent
+    LoginComponent,
+    DefaultLayoutComponent,
+    ModalComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule, RouterModule.forRoot(routes),
+    FormsModule, ReactiveFormsModule, RouterModule.forRoot(routes),
     HttpClientModule,
     MatNativeDateModule, ScrollingModule,
     MatButtonModule, MatIconModule, MatDividerModule,
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
-    MatTableModule, MatPaginatorModule
+    MatTableModule, MatPaginatorModule,MatStepperModule,MatSelectModule,
+    DragDropModule , MatDialogModule,
+    LottieModule.forRoot({ player: playerFactory }),
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

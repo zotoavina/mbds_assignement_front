@@ -1,0 +1,13 @@
+<nav class="navbar my-navbar">
+  <a routerLink="/" class="logo">Mes Devoirs</a>
+  <div class="spacer"></div>
+  <ul class="nav-links">
+    <li><a routerLink="/home"><mat-icon>home</mat-icon> Accueil</a></li>
+    <li  *ngIf="isConnectedAsAdmin"><a routerLink="/add"><mat-icon>assignment</mat-icon>Assigner</a></li>
+  </ul>
+  <button class="logout-button" *ngIf="!isConnected"><a routerLink="/login">Se connecter</a></button>
+  <button class="logout-button" *ngIf="isConnected" (click)="logout()">Se déconnecter</button>
+</nav>
+<div class="main">
+  <router-outlet></router-outlet>
+</div>

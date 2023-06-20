@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Rendre {{data.copy.nom}}</h2>
+<p *ngIf="errorMessage" style="color:red" mat>{{errorMessage}}</p>
+<mat-dialog-content [formGroup]="noteForm">
+  <div class="form-group">
+    <mat-form-field>
+      <mat-label>Note</mat-label>
+      <input matInput formControlName="note" type="number" placeholder="Ajouter une note" required>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field>
+      <mat-label>Remarks</mat-label>
+      <input matInput formControlName="remarks" placeholder="Remarque">
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-button color="primary" (click)="onConfirm()" [disabled]="noteForm.invalid">Rendre</button>
+</mat-dialog-actions>
