@@ -42,12 +42,16 @@ button{
 
 
 /* Style local */
-:host .success-snackbar {
+::ng-deep .success-snackbar {
   background-color: #50bfa5!important; /* Couleur de fond en cas de succès */
   color: #000000!important; /* Couleur du texte en cas de succès */
 }
 
-:host .error-snackbar {
+::ng-deep .error-snackbar {
   background-color: #CB2823!important; /* Couleur de fond en cas d'erreur */
   color: #ffffff!important; /* Couleur du texte en cas d'erreur */
+}
+
+.me-2{
+  margin-right: 10px;
 }
