@@ -58,6 +58,14 @@ note sur 20, on ne peut marquer "rendu" un Assignment qui n'a pas été noté.
 - Utilisation de loader lors des chargements des pages
 - Utilisation de card et de stepper
 
+## Lancement du projet
+- Installez les dépendances:
+  npm install
+- Démarrer l'application:
+  ng serve
+- Ouvrez localhost:4200
+* Pour l'authentification, on a déjà mis par défaut
+ le login et mdp d'un utilisateur admin
 
 ## Documentations et aides
 - https://lottiefiles.com/ 
